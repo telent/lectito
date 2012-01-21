@@ -22,3 +22,6 @@ to us that 'action' is maybe the wrong name.  (The command pattern
 might be relevant here, but seems a bit overkill when the whole
 actioncontroller thing is basically a command pattern itself)
 
+6) edition.blurb is being dropped: publisher blurb is a special case
+of review, so we will do this as a review instead
+
