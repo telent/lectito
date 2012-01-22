@@ -1,4 +1,11 @@
 Lectito::Application.routes.draw do
+
+  match '/auth/:service/callback' => 'sessions#create'
+  match '/logout' => 'sessions#destroy'
+  match '/login' => 'sessions#new'
+
+  resources :users
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
