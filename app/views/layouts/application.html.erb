@@ -2,13 +2,42 @@
 <html>
 <head>
   <title>Lectito</title>
+  <link href='http://fonts.googleapis.com/css?family=Righteous'
+        rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Terminal+Dosis:400,600' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Varela+Round&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+<header>
+<div id="logo">
+  <a href="/">logovore</a>
+</div>
+<div id="search">
+  <form name=search method=get action=<%= books_url %> >
+    <input name="term" placeholder="Find book, author, person" type="text"> 
+  </form>
+</div>
+<div id="session">
+<ul>
+  <% if u=current_user then %>
+  <li><%= link_to("#{u.name}",u) %> </li>
+  
+  <li><%= link_to("sign out","/logout") %></li>
+  <% else %>
+  <li><%= link_to("sign in",'/')   %></li>
+  <% end %>
+</ul>
+</div>
+</header>
+<article>
 <%= yield %>
-
+</article>
+<footer>
+<div class="divider" clear="both"> </div>
+Site Copyright &copy;2012 Daniel Barlow.  All user-generated content is
+owned by the user who generated it
+</footer>
 </body>
-</html>
