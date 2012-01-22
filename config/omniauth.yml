@@ -1,0 +1,15 @@
+development:
+  twitter:
+    consumer_key: 'TmZnX4KQDuxI1t4ZEZfA'
+    consumer_secret: 'Hym0FdfebALc3jFSicOs1wSgAUHVYGZdgzloNQMi4E'
+  facebook:
+    app_id: '262350220474093'
+    app_secret: '735501635159346f3c817a33e2dd2142'
+
+test:
+  twitter:
+    consumer_key: 'TmZnX4KQDuxI1t4ZEZfA'
+    consumer_secret: 'Hym0FdfebALc3jFSicOs1wSgAUHVYGZdgzloNQMi4E'
+  facebook:
+    app_id: '262350220474093'
+    app_secret: '735501635159346f3c817a33e2dd2142'
