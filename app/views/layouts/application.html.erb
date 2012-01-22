@@ -13,13 +13,15 @@
 <body>
 <header>
 <div id="logo">
-  <a href="/">logovore</a>
+  <a href="/">lectito</a>
 </div>
 <div id="search">
   <form name=search method=get action=<%= books_url %> >
     <input name="term" placeholder="Find book, author, person" type="text"> 
   </form>
 </div>
+<div id="tagline">libros non legendos sed lectitandos
+  <div id="translated">"Books must not be read but read eagerly" - Plin. Ep. 2, 17, 8:</div></div>
 <div id="session">
 <ul>
   <% if u=current_user then %>

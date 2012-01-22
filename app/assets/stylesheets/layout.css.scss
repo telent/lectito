@@ -19,18 +19,26 @@ header {
 
     border: 0px; margin: 0px; 
     color: white;
-    height: 55px;
+    height: 70px;
     a,a:visited {
         color: #ddf;
         text-decoration: none;
     }
     #logo {
         position: absolute;
-        left: 1em; top: 15px;
+        left: 40px; top: 6px;
         font-family: 'Terminal Dosis', sans-serif;
         font-weight: 600;
         font-size: 28pt;
         text-shadow:  #888 2px 2px 1px;
+    }
+    #tagline {
+	font-size: 9pt;
+        position: absolute;
+	#translated {
+	    display: none;
+	}
+        left: 42px; top: 51px;
     }
         
     #session {
