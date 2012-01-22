@@ -1,0 +1,59 @@
+{
+ "kind": "books#volumes",
+ "items": [
+  {
+   "kind": "books#volume",
+   "id": "6Kvhy8GDzNMC",
+   "etag": "sCKNnf7U2qA",
+   "selfLink": "https://www.googleapis.com/books/v1/volumes/6Kvhy8GDzNMC",
+   "volumeInfo": {
+    "title": "Spin Control",
+    "authors": [
+     "Chris Moriarty"
+    ],
+    "publisher": "Spectra",
+    "publishedDate": "2007-06-26",
+    "description": "",
+    "industryIdentifiers": [
+     {
+      "type": "ISBN_10",
+      "identifier": "0553586254"
+     },
+     {
+      "type": "ISBN_13",
+      "identifier": "9780553586251"
+     }
+    ],
+    "pageCount": 608,
+    "printType": "BOOK",
+    "categories": [
+     "Fiction"
+    ],
+    "averageRating": 3.5,
+    "ratingsCount": 28,
+    "contentVersion": "preview-1.0.0",
+    "imageLinks": {
+     "smallThumbnail": "http://bks4.books.google.co.uk/books?id=6Kvhy8GDzNMC&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+     "thumbnail": "http://bks4.books.google.co.uk/books?id=6Kvhy8GDzNMC&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+    },
+    "language": "en",
+    "previewLink": "http://books.google.co.uk/books?id=6Kvhy8GDzNMC&dq=isbn:9-780553-586251&ie=ISO-8859-1&cd=1&source=gbs_api",
+    "infoLink": "http://books.google.co.uk/books?id=6Kvhy8GDzNMC&dq=isbn:9-780553-586251&ie=ISO-8859-1&source=gbs_api"
+   },
+   "saleInfo": {
+    "country": "GB",
+    "saleability": "NOT_FOR_SALE",
+    "isEbook": false
+   },
+   "accessInfo": {
+    "country": "GB",
+    "viewability": "NO_PAGES",
+    "embeddable": false,
+    "publicDomain": false,
+    "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+    "accessViewStatus": "NONE"
+   }
+  }
+ ],
+ "totalItems": 1
+}
