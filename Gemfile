@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.0'
+# as of Sun Jan 22 19:12:51 GMT 2012, omniauth requires rack HEAD
+gem 'rack',:git=>'https://github.com/rack/rack.git'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -24,7 +26,10 @@ gem 'jquery-rails'
 
 gem 'patron'
 gem 'rr'
-
+gem 'omniauth', '>= 1.0'
+gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-twitter'
 
 
 # To use ActiveModel has_secure_password
