@@ -4,7 +4,7 @@ Lectito::Application.routes.draw do
   match '/logout' => 'sessions#destroy'
   match '/login' => 'sessions#new'
 
-  resources :users
+  resources :users,:books
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
