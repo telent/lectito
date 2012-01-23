@@ -39,7 +39,8 @@ Lectito::Application.configure do
     begin
       require 'pry'
       IRB = Pry
-      IRB::ExtendCommandBundle = Pry
+      module Pry::RailsCommands ;end
+      IRB::ExtendCommandBundle = Pry::RailsCommands
     rescue LoadError
     end
   end
