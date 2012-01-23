@@ -11,5 +11,5 @@
  *= require_self
  *= require "reset"
  *= require "layout"
- * // = require_tree .
+ *= require_tree .
 */
