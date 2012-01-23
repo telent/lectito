@@ -12,7 +12,7 @@ describe EditionSource::GoogleBooks do
     }
 
     source = EditionSource::GoogleBooks.new
-    ret=source.find_by_isbn(isbn)
+    ret=source.find_isbn(isbn)
     assert_equal "Spin Control",ret[:title]
     assert_equal "Chris Moriarty",ret[:author]
     assert_equal "Spectra", ret[:publisher]
