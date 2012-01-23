@@ -1,0 +1,15 @@
+form .field {
+    label {
+	width: 10em;
+	text-align: right;
+	margin-right: 1em;
+	display: inline-block;
+    }
+    input[type=text] {
+	width: 30em;
+    }
+    select,input[id=edition_isbn] {
+	width: 15em;
+    }
+    margin-bottom: 6px;
+}
