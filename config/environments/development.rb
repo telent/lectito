@@ -34,4 +34,14 @@ Lectito::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  silence_warnings do
+    begin
+      require 'pry'
+      IRB = Pry
+      IRB::ExtendCommandBundle = Pry
+    rescue LoadError
+    end
+  end
+
 end
