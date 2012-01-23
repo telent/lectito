@@ -10,7 +10,8 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body data-controller="<%= controller.controller_name %>"
+  data-action="<%= controller.action_name %>" >
 <header>
 <div id="logo">
   <a href="/">lectito</a>
