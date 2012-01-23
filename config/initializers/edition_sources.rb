@@ -1,0 +1,1 @@
+EditionSources=[EditionSource::GoogleBooks.new]
