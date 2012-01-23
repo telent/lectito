@@ -15,14 +15,14 @@ class SessionsController < ApplicationController
         i=auth["info"]
         warn [:i,i]
         u=User.create :authorizations=>[a],
-        :name=>(i["nickname"] || (i["name"].downcase.gsub(/[^a-zA-Z0-9]/,"_"))),
-        :image=>i["image"],
+        :nickname=>(i["nickname"] || (i["name"].downcase.gsub(/[^a-zA-Z0-9]/,"_"))),
+        :avatar=>i["image"],
         :email=>i["email"],
         :fullname=>i["name"]
+        a.user=u
+        a.save
         session[:user_id]=u.id
-        warn [:success]
-        warn [:success, edit_user_path(u)]
-        redirect_to edit_user_path(u)
+        redirect_to stories_path
       rescue Exception => e
         warn [:except,e]
       end
