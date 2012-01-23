@@ -5,7 +5,7 @@ module EditionSource
       @patron.base_url="https://www.googleapis.com/"
     end
 
-    def find_by_isbn(isbn)
+    def find_isbn(isbn)
       isbn=isbn.gsub(/[^\d]/,"")
       r=@patron.get("/books/v1/volumes?q=isbn:#{isbn}")
       if (r.status==200) then
