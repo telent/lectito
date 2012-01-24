@@ -34,6 +34,19 @@ class BooksController < ApplicationController
     @shelves=current_user.shelves
     @collections=current_user.collections
   end
+
+  def edit
+    @book=Book.find(params[:id])
+    @edition=@book.edition
+    @shelves=current_user.shelves
+    @collections=current_user.collections
+  end
+
+  def show
+    @book=Book.find(params[:id])
+    #@edition=@book.edition
+  end
+
   def create
     # if there's no data for the edition, look it up
     # if there's no edition found, add a validation error
