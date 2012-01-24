@@ -1,0 +1,13 @@
+ul.toolbar {
+    border: solid 1px #888 ;
+    border-radius: 3px;
+    padding: 4px;
+    li {
+	display: inline;
+	padding-right: 1em;
+    }
+    li.right {
+	float: right;
+    }
+    margin: 1em 0em;
+}

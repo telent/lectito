@@ -1,0 +1,31 @@
+<tr>
+<% if columns.member?(:check) then %>
+<td class=check><input type=checkbox name=check[] value=<%= book.id %> /></td>
+<% end %>
+<% if columns.member?(:home_location) then %>
+<td><%= [book.home_shelf.user.nickname, book.home_shelf.name].join("/") %></td>
+<% end %>
+<% if columns.member?(:owner) then %>
+<td><%= (o=book.collection.owner) and link_to(o.nickname,o)   %></td>
+<% end %>
+<% if columns.member?(:shelf) then %>
+<td><%= s=book.home_shelf and link_to(s.name,s) %></td>
+<% end %>
+<% if columns.member?(:current_location) then %>
+<!-- this is prime for refectoring into a decorator -->
+<td  <%= if book.home? then "class=home" else "class=away" end %> >
+ <%= if book.on_loan? then "#{book.borrower.name} / " end %>
+ <%= (s=book.current_shelf) ? s.name : "no shelf"  %>
+</td>
+<% end %>
+<td><%= link_to book.title,book %></td>
+<td><%= book.author %></td>
+<td><%= book.publisher %></td>
+<td><%= book.isbn %></td>
+<% if columns.member?(:added) then %>
+<td><%= time_ago_in_words(book.created_at) %> ago</td>
+<% end %>
+<td><%= link_to 'Edit', edit_book_path(book),:class=>[:replace_icon,:edit_icon_16] %></td>
+<td><%= link_to 'Destroy', book, confirm: 'Are you sure?', method:
+        :delete %>
+</tr>
