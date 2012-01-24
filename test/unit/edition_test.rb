@@ -21,4 +21,11 @@ describe Edition do
     assert_equal "Chris Moriarty",e.author
     assert_equal "Spectra", e.publisher
   end
+  it "returns nil if no isbn found" do
+    isbn="9-780553-586251"
+    # all it really does is delegate to the source
+    mock(source=Object.new).find_isbn(isbn) { nil }
+    e=Edition.find_isbn(isbn, [source])
+    e.must_be_nil
+  end
 end
