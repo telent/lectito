@@ -36,6 +36,7 @@
 </div>
 </header>
 <article>
+<%= render :partial=>"partials/flash",:object => flash  %>
 <%= yield %>
 </article>
 <footer>

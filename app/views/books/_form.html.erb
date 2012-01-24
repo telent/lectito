@@ -12,7 +12,7 @@
 <%= fields_for @edition do |e| %>
 <div class="field">
   <%= e.label :isbn %>
-  <%= e.text_field :isbn %>
+  <%= e.text_field :isbn, :autofocus=>'true' %>
   <a href="<%= "http://zxing.appspot.com/scan?ret=#{URI::escape(request.url+'?isbn={CODE}')}" %>">
     <%= image_tag  "barcode.png" , 
 	:style=>"position: relative; top: 7px; left: 4px",
