@@ -1,5 +1,32 @@
 class BooksController < ApplicationController
   def index
+    @books=current_user.books.joins(:edition)
+    case (p=params[:sort] and p.to_sym)
+#    when :where 
+#    then @books=@books.joins(:shelf,:collection=>:user).order("users.name,shelves.name")
+    when :title
+    then @books=@books.order("title")
+    when :author
+    then @books=@books.order("author")
+    when :publisher 
+    then @books=@books.order("publisher")
+    when :isbn 
+    then @books=@books.order("isbn")
+    else
+      @books=@books.order(:created_at)
+    end
+    if params[:direction]=='d' then
+      @books=@books.reverse_order
+    end
+    @books=@books.paginate page: params[:page], per_page: 20
+    @shelves=current_user.shelves.sort_by(&:name)
+    @collections=current_user.collections.sort_by(&:name)
+    
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @books }
+    end
+
   end
   def new
     @book=Book.new
