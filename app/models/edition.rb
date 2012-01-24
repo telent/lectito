@@ -4,6 +4,7 @@ class Edition < ActiveRecord::Base
       data=sources.map { |s|
         if r=s.find_isbn(isbn) then return self.create(r) end
       }
+      nil
     end
   end
 end
