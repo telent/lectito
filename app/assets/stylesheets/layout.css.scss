@@ -25,18 +25,20 @@ header {
         text-shadow:  #888 2px 2px 1px;
     }
     #tagline {
-	font-size: 9pt;
+	font-size: 12px;
         position: absolute;
 	#translated {
 	    display: none;
-	}
+	} 
+	text-shadow: 1px 1px 1px #0C0D0D;
         left: 42px; top: 51px;
     }
         
     #session {
         position: absolute;
         right: 2em; top: 5px;
-        font-weight: bold;    
+	font-size: 13px;
+        font-weight: 600;    
         z-index: 1;
         ul {
             display: inline;
@@ -44,7 +46,7 @@ header {
                 display: inline;
             }
             li + li:before {
-                content: "|";
+                content: ".";
                 padding-right: 0.5em;
                 
             }
