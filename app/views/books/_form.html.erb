@@ -1,3 +1,5 @@
+<%= render :partial=>"partials/form_errors", 
+:locals => {:objects=> [@book,@edition] } %>
 <%= form_for @book do |f| %>
 <div class="field">
   <%= f.label :shelf_id %>
@@ -5,13 +7,11 @@
 </div>
 <div class="field">
   <%= f.label :collection_id %>
-  <%= collection_select(:book,:collection_id,@collections,:id,:name,{ 
-      :include_blank => '(guess collection)' 
-  }) %>
+  <%= collection_select(:book,:collection_id,@collections,:id,:name) %>
 </div>
 <%= fields_for @edition do |e| %>
 <div class="field">
-  <%= e.label "ISBN" %>
+  <%= e.label :isbn %>
   <%= e.text_field :isbn %>
   <a href="<%= "http://zxing.appspot.com/scan?ret=#{URI::escape(request.url+'?isbn={CODE}')}" %>">
     <%= image_tag  "barcode.png" , 

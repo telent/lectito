@@ -29,3 +29,7 @@
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b5b5b5', endColorstr='#94a89a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
     
 }
+
+@mixin field-error-background {
+    background-color: #ebb;
+}

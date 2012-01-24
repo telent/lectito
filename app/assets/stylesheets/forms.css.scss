@@ -1,3 +1,5 @@
+@import "colors";
+
 form .field {
     label {
 	width: 10em;
@@ -12,4 +14,30 @@ form .field {
 	width: 15em;
     }
     margin-bottom: 6px;
+    div.field_with_errors {
+	display: inline-block;
+	input {
+	    border: 2px red solid;
+	    @include field-error-background;
+	}
+    }
+}
+div#error_explanation {
+    width: 80%;
+    margin: 1em 2em 2em 1em;
+    padding: 9px 18px;
+
+    @include field-error-background;
+    box-shadow: 4px 4px 3px #ddd;
+    h2 {
+	margin: 0 6px 0 0;
+	padding: 0;
+	font-size: 100%;
+    }
+    ul {
+	list-style: circle;
+	li {
+	    margin-left: 2em;
+	}
+    }
 }

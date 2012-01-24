@@ -3,4 +3,5 @@ class User < ActiveRecord::Base
   has_many :authorizations
   has_many :shelves
   has_many :collections
+  has_many :books, :through => :collections
 end

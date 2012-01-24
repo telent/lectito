@@ -1,11 +1,8 @@
 module EditionSource
   class GoogleBooks
-    def initialize
+    def find_isbn(isbn)
       @patron=Patron::Session.new
       @patron.base_url="https://www.googleapis.com/"
-    end
-
-    def find_isbn(isbn)
       isbn=isbn.gsub(/[^\d]/,"")
       r=@patron.get("/books/v1/volumes?q=isbn:#{isbn}")
       if (r.status==200) then
