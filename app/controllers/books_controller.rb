@@ -23,18 +23,19 @@ class BooksController < ApplicationController
     if @edition 
       @edition.books << @book
       if @edition.save && @book.save
-        flash[:notice]='Book added'
+        flash.notice =
+          "Added #{@edition.author}, &ldquo;#{@edition.title}&rdquo;"
         redirect_to :action=>:new
-        return
       end
     end
     if @edition.nil? then
       @edition=Edition.new(:isbn=>e[:isbn])
       @edition.errors[:isbn] << "not found, please add full publication details"
     end
-    @shelves=current_user.shelves
-    @collections=current_user.collections
-    flash[:error]='It broke'
-    render action: :new
+    if @book.new_record?
+      @shelves=current_user.shelves
+      @collections=current_user.collections
+      render action: :new
+    end
   end
 end
