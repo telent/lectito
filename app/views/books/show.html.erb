@@ -1,0 +1,47 @@
+<dl class=attribute_list>
+<dt>Title</dt>
+<dd>  <%= @book.title %></dd>
+
+<dt>Author</dt>
+<dd>  <%= @book.author %></dd>
+
+<dt>Publisher</dt>
+<dd>  <%= @book.publisher %></dd>
+
+<dt>ISBN</dt>
+<dd>  <%= @book.isbn %></dd>
+
+<dt>Owner</dt>
+<dd>  <%= @book.owner.name %> </dd>
+<%= # image_tag
+#    @book.cover_image_url(:medium),:align=>:right,:height=>303,:alt=>"Cover image" 
+%>
+
+<dt>Home shelf</dt>
+<dd>  <%= @book.home_shelf.name %></dd>
+
+<% if @book.on_loan? then %>
+<dt>On loan to</dt>
+<dd>
+  <%= b=@book.borrower and link_to(b.nickname,b) %>
+</dd>
+<% elsif not @book.home? then %>
+<dt>Current shelf</dt>
+<dd><%= s=@book.current_shelf ; s && link_to(s.name,s) %> </dd>
+<% end %>
+
+<br clear=both>
+<%= link_to 'Edit', edit_book_path(@book) %> |
+<%= link_to 'Back', books_path %> |
+
+<%= if @book.on_loan? then
+    button_to 'Return',action: :return, method: :post
+    end 
+%>
+
+<% if not @book.on_loan? then %>
+    <input type=button id=lend value="Lend" />
+<% end %>
+
+</div>
+
