@@ -1,0 +1,12 @@
+<% errors=objects.map {|o| o.errors.full_messages }.flatten %>
+<% if (c=errors.count) > 0 then %>
+<div id="error_explanation">
+  <h2><%= pluralize(c,"error") %> stopped this from being saved </h2>
+  <ul>
+    <% errors.each do |msg| %>
+    <li> <%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
