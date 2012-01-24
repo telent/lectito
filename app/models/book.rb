@@ -8,6 +8,10 @@ class Book < ActiveRecord::Base
   
   def_delegators :edition, :title, :author, :publisher, :isbn
 
+  def owner
+    self.collection.user
+  end
+  
   def home?
     (current_shelf==home_shelf)
   end
