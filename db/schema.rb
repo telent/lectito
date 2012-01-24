@@ -77,7 +77,6 @@ ActiveRecord::Schema.define(:version => 20120123211031) do
     t.string   "url"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.string   "link"
   end
 
   add_index "stories", ["user_id"], :name => "index_stories_on_user_id"
