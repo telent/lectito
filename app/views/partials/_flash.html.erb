@@ -1,0 +1,15 @@
+<% [:alert, :notice].each do |key| %>
+<% f=flash[key]; if f.present? then %>
+  <div class="flash flash_<%= key %>">
+    <p id="flash_close">&#x2715;</p>
+    <p><%= f.html_safe %></p>
+    <div class="clear"></div>
+  </div>
+<% 
+   # we only display the first flash message we find: there is
+   # something weird and wrong if two are set, but let's not compound
+   # that by rendering two close buttons
+   flash.clear
+   end 
+%>
+<% end %>
