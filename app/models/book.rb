@@ -13,11 +13,11 @@ class Book < ActiveRecord::Base
   end
   
   def home?
-    (current_shelf==home_shelf)
+    current_shelf.nil? || (current_shelf==home_shelf)
   end
 
   def on_loan?
-    current_shelf.user != collection.user
+    !! self.borrower
   end
 
   def location 
@@ -36,6 +36,7 @@ class Book < ActiveRecord::Base
       raise Exception,"Can't lend to owner"
     else
       self.borrower=borrower
+      self.current_shelf=nil
       Event.publish(:actor=>self.owner,:action=>:lend,:recipient=>borrower,
                     :book=>self)
       save
