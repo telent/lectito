@@ -18,7 +18,7 @@ header {
     }
     #logo {
         position: absolute;
-        left: 40px; top: 6px;
+        left: 45px; top: 15px;
         font-family: 'Terminal Dosis', sans-serif;
         font-weight: 600;
         font-size: 28pt;
@@ -32,6 +32,19 @@ header {
 	} 
 	text-shadow: 1px 1px 1px #0C0D0D;
         left: 42px; top: 51px;
+	position: relative;
+    }
+    #tagline:hover #translated {
+	display: block;
+	position: absolute;
+	border-radius: 4px;
+	padding: 4px;
+	background-color: #ffd;
+	background: -moz-linear-gradient(45deg, #ffd 0%, #fff 50%, #ffd 100%);
+	text-shadow: none;
+	color: #444;
+	left: 6px; 
+	border: 1px solid #444;
     }
         
     #session {
@@ -55,7 +68,7 @@ header {
     #search {
         position: absolute;
         font-size: 18pt;
-        left: 11em; top: 15px;
+        left: 300px; top: 18px;
         form input[type=text] {
             width: 25em;
             height: 18px;
