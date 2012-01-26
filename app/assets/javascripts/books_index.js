@@ -42,8 +42,8 @@ jQuery(document).ready(function() {
 		});
 	    
 	    $("table th").click(function(e) {
+		    if (this.id == 'check') { return; };
 		    var sort_key=e.target.firstChild.textContent.toLowerCase();
-		    if (!sort_key.length) { return; };
 		    var params=document.location.search.substr(1).split('&').reduce(function(h,p) { var kv=p.split('=',2); h[kv[0]]=kv[1] ; return h }, {});
 		    if (params.sort==sort_key) {
 			params.direction = (params.direction == 'a') ? 'd' : 'a';
