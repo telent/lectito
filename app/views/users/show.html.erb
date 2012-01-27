@@ -1,0 +1,20 @@
+<%= if @user.avatar? then 
+    image_tag @user.avatar, class: "bordered rightfloat"
+    end %>
+<dl class=attribute_list>
+<dt>Name</dt>
+<dd>  <%= @user.fullname %></dd>
+
+<dt>Nickname</dt>
+<dd>  <%= @user.nickname %></dd>
+
+<dt>Email</dt>
+<dd>  <%= @user.nickname %></dd>
+</dl>
+
+<br clear=both>
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', user_path %> |
+
+</div>
+
