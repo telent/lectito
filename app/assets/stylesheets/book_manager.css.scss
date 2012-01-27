@@ -1,0 +1,28 @@
+div#book_manager {
+    div#leftbar {
+	float: left;
+	width: 150px;
+	margin-right:  20px;
+	font-size: 12px;
+	div  {
+	    font-weight: bold;
+	    margin-bottom: 1em;
+	    padding: 0 0 6px 0.5em;
+	    border: 1px solid #bbb;
+	    ul li {
+		font-weight: normal;
+		margin-left: 6px;
+	    }		
+	}
+    }
+    form#organize {
+	display: inline-block;
+	
+    }
+    table td {
+	padding-right: 1em;
+    }
+    th#check select#mark  {
+	width: 40px;
+    }
+}
