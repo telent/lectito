@@ -8,4 +8,8 @@ class User < ActiveRecord::Base
   def name
     "#{nickname} (#{fullname})"
   end
+  
+  def admin?
+    false
+  end
 end
