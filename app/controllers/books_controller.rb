@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
   def index
+    check_authorized { current_user }
     @books=current_user.books.joins(:edition)
     case (p=params[:sort] and p.to_sym)
 #    when :where 
@@ -40,6 +41,22 @@ class BooksController < ApplicationController
     @edition=@book.edition
     @shelves=current_user.shelves
     @collections=current_user.collections
+  end
+
+  # XXX need an update method.
+  
+  def lend
+    book=Book.find(params[:id])
+    check_authorized { book.owner == current_user }
+    book.lend(User.find(params[:borrower_id]))
+    redirect_to :action=>:show
+  end
+
+  def return
+    book=Book.find(params[:id])
+    check_authorized { book.owner == current_user }
+    book.return
+    redirect_to :action=>:show
   end
 
   def show

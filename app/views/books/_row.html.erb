@@ -2,10 +2,7 @@
 <td class=check><input type=checkbox name=check[] value=<%= book.id %> /></td>
 <td><%= book.home_shelf.name %></td>
 <td><%= book.home? ? "" : book.current_shelf.name %></td>
-<td><%= link_to book.title,book %></td>
-<td><%= book.author %></td>
-<td><%= book.publisher %></td>
-<td><%= book.isbn %></td>
+<td><%= link_to "#{book.author}, &ldquo;#{book.title}&rdquo;".html_safe ,book %></td>
 <td><%= time_ago_in_words(book.created_at) %> ago</td>
 <td><%= link_to 'Edit', edit_book_path(book),:class=>[:replace_icon,:edit_icon_16] %></td>
 <td><%= link_to 'Destroy', book, confirm: 'Are you sure?', method:

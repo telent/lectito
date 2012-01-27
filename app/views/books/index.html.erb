@@ -1,14 +1,43 @@
-<h1>Books</h1>
+<h1>My Books</h1>
 
-<%= form_tag url_for(action: 'organize'),id: 'organize' do %>
+<div id=book_manager>
+  <div id=leftbar>
+    <div>
+      Shelves
+      <ul>
+	<li> Top shelf</li>
+	<li> Middle shelf</li>
+	<li> Bottom shelf</li>
+	<li><i>add new</i></li>
+      </ul>
+    </div>
+    <div>
+      Collections
+      <ul>
+	<li> My books</li>
+	<li> Private</li>
+	<li><i>add new</i></li>
+      </ul>
+    </div>
+    <div>
+      Owner
+      <ul>
+	<li> Me</li>
+	<li> Anthony</li>
+	<li> Clare</li>
+      </ul>
+    </div>
+  </div>
+
+  <%= form_tag url_for(action: 'organize'),id: 'organize' do %>
+ 								
   <ul class=toolbar id=toolbar>
-    <li> <b>Marked books</b> </li>
     <li>
-    <%= collection_select(:reshelve,:shelf_id,@shelves,:id,:name,
-	:prompt=>"Change home shelf") %></li>
+      <%= collection_select(:reshelve,:shelf_id,@shelves,:id,:name,
+	  :prompt=>"Change home shelf") %></li>
     <li>
-    <%= collection_select(:reshelve,:current_shelf_id,@shelves,:id,:name,
-	:prompt=>"Change current shelf") %></li>
+      <%= collection_select(:reshelve,:current_shelf_id,@shelves,:id,:name,
+	  :prompt=>"Change current shelf") %></li>
     <li>
       <%= collection_select(:collection,:collection_id,@collections,:id,:name,:prompt=>"Change
       collection") %></li>
@@ -16,21 +45,18 @@
       <input type=submit value=Update />
   </ul>
   <p> </p>
-  <table class=manager style="width: 100%; font-size: 10pt">
+  <table class=manager style="font-size: 10pt">
     <col class="check"/>
     <col class="where"/>
     <col class="current_location"/>
-    <col class="title"/>
-    <col class="author"/>
-    <col class="publisher"/>
-    <col class="isbn"/>
+    <col class="book"/>
     <col class="added"/>
     <col class="edit"/>
     <col class="destroy"/>
     <col />
-
+    
     <tr class=header>
-      <th class=check>
+      <th id=check>
 	<select id=mark>
 	  <option value=title>&#x2713;</option>
 	  <option value=all>All</option>
@@ -40,23 +66,21 @@
       </th>
       <th>Home</th>
       <th>Location</th>
-      <th>Title</th>
-      <th>Author</th>
-      <th>Publisher</th>
-      <th>ISBN</th>
+      <th>Book</th>
       <th>Added</th>
       <th />
       <th />
     </tr>
     
-<% @books.each do |book|  %>
+  <% @books.each do |book|  %>
   <%= render :partial=>"row", :locals => {
   :book=>book,:columns=>[:check,:home_location, :current_location,:added] 
   } %>
-<% end %>
+  <% end %>
 </table>
 
 <% end # form %>
+<br style="clear: both">
 <br />
 <p><%= will_paginate @books %></p>
 <%= link_to 'New Book', new_book_path %>

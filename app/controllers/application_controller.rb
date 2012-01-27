@@ -1,3 +1,5 @@
+require 'active_resource/exceptions'q
+
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
@@ -7,7 +9,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def check_authorized
-    unless (current_user.admin? || yield) then 
+    unless ((current_user && current_user.admin?) || yield) then 
       response.status=401
       raise ActiveResource::UnauthorizedAccess.new(response)
     end
