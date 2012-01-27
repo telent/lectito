@@ -13,11 +13,14 @@ class Book < ActiveRecord::Base
   end
   
   def home?
-    (current_shelf==home_shelf)
+    # current_shelf may be nil if the book has been loaned and the 
+    # recipient has not decided where to put it, or if the book is
+    # on its home shelf
+    (current_shelf.nil? && !on_loan?) || (current_shelf==home_shelf)
   end
 
   def on_loan?
-    current_shelf.user != collection.user
+    borrower && (borrower!=owner)
   end
 
   def location 

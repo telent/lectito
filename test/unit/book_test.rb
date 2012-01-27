@@ -29,6 +29,7 @@ describe Book do
     end
     
     it "can be lent if on shelf" do
+      refute @book.on_loan?
       @book.lend(@borrower)
       assert_equal @borrower, @book.borrower
       @book.current_shelf.must_be_nil
