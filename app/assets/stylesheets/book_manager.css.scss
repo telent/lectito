@@ -13,8 +13,12 @@ div#book_manager {
 	    overflow: hidden;
 	    ul li {
 		font-weight: normal;
-		margin-left: 6px;
-	    }		
+		margin: 0 6px 0 6px;
+		padding: 0 10px 0 10px;
+	    }
+	    ul li.selected {
+		background-color: #ddf;
+	    }
 	}
 	div:hover {
 	    max-height: 100%;
@@ -26,6 +30,9 @@ div#book_manager {
     }
     table td {
 	padding-right: 1em;
+    }
+    table col.book {
+	width: 25em;
     }
     th#check select#mark  {
 	width: 40px;

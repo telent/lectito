@@ -1,23 +1,28 @@
 var previously_selected;
+var shelves, collections, books;
 
 Lectito.Views.ULView=Backbone.View.extend({
     tagName: 'ul',
     li_for_collection: function(coll) {
 	name = this.options.name || 'name';
 	return coll.map(function(s) {
-	    return "<li data-id="+s.get('id')+">"+s.escape(name)+"</li>" 
+	    var sel = (s.get('selected')) ? "class=selected" : "";
+	    return "<li "+sel+" data-id="+s.get('id')+">"+s.escape(name)+"</li>" 
 	}).join("\n");
     },
     initialize: function() {
+	this.collection.map(function(m) {m.set({selected: true})});
 	this.collection.bind("all",this.render,this);
+	this.render();
     },
     events: {
-	"click li" : "filter_books"
+	"click li" : "do_select"
     },
-    filter_books: function(e) {
+    do_select: function(e) {
 	var id=$(e.target).closest("li").data("id");
 	var m=this.collection.get(id);
-	console.log(m.constructor.name,m.class,m.get('id'),m.get('name'));
+	var selected= (m.has('selected')) ? m.get('selected') : false;
+	m.set({selected:  !selected});
     },
     render: function() {
 	$(this.el).html(this.li_for_collection(this.collection));
@@ -52,21 +57,27 @@ Lectito.Views.BooksView=Backbone.View.extend({
     tagName: 'tbody',
     initialize: function() {
 	this.collection.bind("all",this.render,this);
-	
+	shelves.bind("change",this.render,this);
+	collections.bind("change",this.render,this);
     },
-    where: function(row) { return true },
+    where: function(row) {
+	var s=(shelves.get(row.get('home_shelf_id')).get('selected') &&
+	       collections.get(row.get('collection_id')).get('selected'));
+	return s;
+    },
     renderItem: function(book) {
 	var iv = new Lectito.Views.BookView({model: book});
-        iv.render();
-        $(this.el).append(iv.el);
+	iv.render();
+	$(this.el).append(iv.el);
     },
     render: function() {
+	$(this.el).html("");
 	this.collection.filter(this.where).map(this.renderItem,this);
 	return this;
     }
 });
 
-var shelves, collections, books;
+
 
 jQuery(document).ready(function() {
     if(($('body').data('controller')=='books') &&
@@ -86,7 +97,6 @@ jQuery(document).ready(function() {
 	$('#shelves').append(shelvesView.render().el);
 	$('#booklist').append(booksView.render().el);
 	debugv=booksView;
-	console.log(booksView);
     }
 });
 
