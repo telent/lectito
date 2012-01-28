@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= [@page_title,"booksh.lv"].compact.join(" - ") %></title>
+  <title><%= [@page_title,
+"booksh.lv",
+case Rails.env when "development" then "(dev)" else nil end
+ ].compact.join(" - ") %></title>
   <link href='http://fonts.googleapis.com/css?family=Righteous'
         rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Terminal+Dosis:400,600' rel='stylesheet' type='text/css'>

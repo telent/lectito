@@ -5,14 +5,19 @@ div#book_manager {
 	margin-right:  20px;
 	font-size: 12px;
 	div  {
+	    max-height: 100px;
 	    font-weight: bold;
 	    margin-bottom: 1em;
 	    padding: 0 0 6px 0.5em;
 	    border: 1px solid #bbb;
+	    overflow: hidden;
 	    ul li {
 		font-weight: normal;
 		margin-left: 6px;
 	    }		
+	}
+	div:hover {
+	    max-height: 100%;
 	}
     }
     form#organize {

@@ -1,4 +1,4 @@
-require 'active_resource/exceptions'q
+require 'active_resource/exceptions'
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
