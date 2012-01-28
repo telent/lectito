@@ -7,7 +7,7 @@ Lectito.Views.ULView=Backbone.View.extend({
 	name = this.options.name || 'name';
 	return coll.map(function(s) {
 	    var sel = (s.get('selected')) ? "class=selected" : "";
-	    return "<li "+sel+" data-id="+s.get('id')+">"+s.escape(name)+"</li>" 
+	    return "<li class=wants_droppable "+sel+" data-id="+s.get('id')+">"+s.escape(name)+"</li>" 
 	}).join("\n");
     },
     initialize: function() {
@@ -16,7 +16,8 @@ Lectito.Views.ULView=Backbone.View.extend({
 	this.render();
     },
     events: {
-	"click li" : "do_select"
+	"click li" : "do_select",
+	"drop li": "do_add_book"
     },
     do_select: function(e) {
 	var id=$(e.target).closest("li").data("id");
@@ -24,8 +25,25 @@ Lectito.Views.ULView=Backbone.View.extend({
 	var selected= (m.has('selected')) ? m.get('selected') : false;
 	m.set({selected:  !selected});
     },
+    do_add_book: function(e,drop,ui) {
+	// jquery drop events don't work with delegate, so we need to 
+	// attach them with bind directly, meaning this function gets
+	// called with the wrong 'this'
+	var shelf_id=$(drop).data('id');
+	var model=ui.draggable.data('model');
+	model.set({current_shelf_id:shelf_id});
+    },
     render: function() {
 	$(this.el).html(this.li_for_collection(this.collection));
+	// I am assuming this handler needs reinstalling whenever any
+	// elements matching the selector are added/removed
+	var lines=$('li.wants_droppable',this.el);
+	lines.droppable({
+	    hoverClass: 'drophover',
+	    tolerance: 'pointer'
+	});
+	var view=this;
+	lines.bind("drop",function(e,ui) {view.do_add_book.call(view,e,this,ui)});
 	return this;
     }
 }); 
@@ -36,6 +54,7 @@ _.templateSettings = {
 
 Lectito.Views.BookView=Backbone.View.extend({
     tagName: 'tr',
+    className: 'booklist_row',
     render: function() {
 	var templ=$('#booklist_row_template').html();
 	var m=this.model;
@@ -49,7 +68,10 @@ Lectito.Views.BookView=Backbone.View.extend({
 	    created_at: $.timeago(m.get('created_at'))
 	};
 	var html=_.template(templ,data);
-	$(this.el).html(html);
+	$(this.el).
+	    html(html).
+	    data('model',m).
+	    draggable({opacity: 0.6, helper: "clone"});
 	return this;
     }
 });
@@ -77,8 +99,6 @@ Lectito.Views.BooksView=Backbone.View.extend({
     }
 });
 
-
-
 jQuery(document).ready(function() {
     if(($('body').data('controller')=='books') &&
        ($('body').data('action')=='index')) {
@@ -96,7 +116,7 @@ jQuery(document).ready(function() {
 	$('#collections').append(collectionsView.render().el);
 	$('#shelves').append(shelvesView.render().el);
 	$('#booklist').append(booksView.render().el);
-	debugv=booksView;
+	debugv=shelvesView;
     }
 });
 
