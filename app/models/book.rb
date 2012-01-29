@@ -31,7 +31,16 @@ class Book < ActiveRecord::Base
     else current_shelf.name
     end
   end
-  
+
+  def reshelve(shelf)
+    if on_loan? then
+      self.current_shelf=shelf
+    else
+      self.home_shelf=shelf
+    end
+    save
+  end
+
   def lend(borrower)
     if self.on_loan? then
       raise Exception,"Can't loan to two people at once"

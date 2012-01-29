@@ -44,7 +44,17 @@ class BooksController < ApplicationController
   end
 
   # XXX need an update method.
-  
+
+  def reshelve
+    book=Book.find(params[:id])
+    check_authorized { book.owner == current_user }
+    book.reshelve(Shelf.find(params[:shelf_id]))
+    respond_to do |format|
+      format.html { redirect_to :action=>:show }
+      format.json { render json: ["OK"] }
+    end
+  end
+
   def lend
     book=Book.find(params[:id])
     check_authorized { book.owner == current_user }
@@ -61,7 +71,10 @@ class BooksController < ApplicationController
 
   def show
     @book=Book.find(params[:id])
-    #@edition=@book.edition
+    respond_to do |format|
+      format.html 
+      format.json { render json: @book }
+    end
   end
 
   def create

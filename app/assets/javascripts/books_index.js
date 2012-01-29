@@ -7,8 +7,10 @@ Lectito.Views.ULView=Backbone.View.extend({
 	name = this.options.name || 'name';
 	return coll.map(function(s) {
 	    var sel = (s.get('selected')) ? "class=selected" : "";
-	    return "<li class=wants_droppable "+sel+" data-id="+s.get('id')+">"+s.escape(name)+"</li>" 
-	}).join("\n");
+	    var el=$("<li class=wants_droppable "+sel+">"+s.escape(name)+"</li>");
+	    el.data("model",s);
+	    return el;
+	})
     },
     initialize: function() {
 	this.collection.map(function(m) {m.set({selected: true})});
@@ -20,8 +22,7 @@ Lectito.Views.ULView=Backbone.View.extend({
 	"drop li": "do_add_book"
     },
     do_select: function(e) {
-	var id=$(e.target).closest("li").data("id");
-	var m=this.collection.get(id);
+	var m=$(e.target).closest("li").data("model");
 	var selected= (m.has('selected')) ? m.get('selected') : false;
 	m.set({selected:  !selected});
     },
@@ -29,15 +30,21 @@ Lectito.Views.ULView=Backbone.View.extend({
 	// jquery drop events don't work with delegate, so we need to 
 	// attach them with bind directly, meaning this function gets
 	// called with the wrong 'this'
-	var shelf_id=$(drop).data('id');
+	var shelf=$(drop).data('model');
 	var model=ui.draggable.data('model');
-	model.set({current_shelf_id:shelf_id});
+	model.reshelve(shelf);
     },
     render: function() {
-	$(this.el).html(this.li_for_collection(this.collection));
+	var ul=$(this.el);
+	ul.html("");
+	_.each(this.li_for_collection(this.collection),
+	       function(ael){
+		   ul.append(ael);
+	       });
+	
 	// I am assuming this handler needs reinstalling whenever any
 	// elements matching the selector are added/removed
-	var lines=$('li.wants_droppable',this.el);
+	var lines=$('li.wants_droppable',ul);
 	lines.droppable({
 	    hoverClass: 'drophover',
 	    tolerance: 'pointer'
