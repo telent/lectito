@@ -6,8 +6,10 @@ Lectito.Views.ULView=Backbone.View.extend({
     li_for_collection: function(coll) {
 	name = this.options.name || 'name';
 	return coll.map(function(s) {
-	    var sel = (s.get('selected')) ? "class=selected" : "";
-	    var el=$("<li class=wants_droppable "+sel+">"+s.escape(name)+"</li>");
+	    var cls = (s.get('selected')) ?
+		"class=\"wants_droppable selected\"" : 
+		"class=\"wants_droppable\"" ;
+	    var el=$("<li "+cls+">"+s.escape(name)+"</li>");
 	    el.data("model",s);
 	    return el;
 	})
