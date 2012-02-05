@@ -141,12 +141,16 @@ jQuery(document).ready(function() {
 	Store.collections.reset(collection_data);
 	Store.books.reset(book_data);
 	var collectionsView=new Lectito.Views.ULView({
-	    collection:  Store.collections
+	    collection:  Store.collections,
+	    where: function(model) {
+		return (model.get('user_id')==current_user.id)
+	    }
+
 	});
 	var shelvesView=new Lectito.Views.ULView({
 	    collection: Store.shelves,
-	    where: function(shelf) {
-		return (shelf.get('user_id')==current_user.id)
+	    where: function(model) {
+		return (model.get('user_id')==current_user.id)
 	    }
 	});
 	var booksView=new Lectito.Views.BooksView({collection:  Store.books});
