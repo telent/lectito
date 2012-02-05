@@ -1,5 +1,5 @@
-var previously_selected;
-var shelves, collections, books;
+// var previously_selected;
+var current_user;
 
 Lectito.Views.ULView=Backbone.View.extend({
     tagName: 'ul',
@@ -86,8 +86,8 @@ Lectito.Views.BooksView=Backbone.View.extend({
     tagName: 'tbody',
     initialize: function() {
 	this.collection.bind("all",this.render,this);
-	shelves.bind("change",this.render,this);
-	collections.bind("change",this.render,this);
+	Store.shelves.bind("change",this.render,this);
+	Store.collections.bind("change",this.render,this);
     },
     where: function(row) {
 	var s=(shelves.get(row.get('home_shelf_id')).get('selected') &&
@@ -109,17 +109,15 @@ Lectito.Views.BooksView=Backbone.View.extend({
 jQuery(document).ready(function() {
     if(($('body').data('controller')=='books') &&
        ($('body').data('action')=='index')) {
-	books = new Lectito.Collections.BooksCollection();
-	collections = new Lectito.Collections.CollectionsCollection();
-	shelves = new Lectito.Collections.ShelvesCollection();
-	shelves.reset(shelf_data);
-	collections.reset(collection_data);
-	books.reset(book_data);
+	current_user = Store.users.fetchId(user_data['id']);
+	Store.shelves.reset(shelf_data);
+	Store.collections.reset(collection_data);
+	Store.books.reset(book_data);
 	var collectionsView=new Lectito.Views.ULView({
-	    collection: collections
+	    collection:  Store.collections
 	});
-	var shelvesView=new Lectito.Views.ULView({collection: shelves});
-	var booksView=new Lectito.Views.BooksView({collection: books});
+	var shelvesView=new Lectito.Views.ULView({collection: Store.shelves});
+	var booksView=new Lectito.Views.BooksView({collection:  Store.books});
 	$('#collections').append(collectionsView.render().el);
 	$('#shelves').append(shelvesView.render().el);
 	$('#booklist').append(booksView.render().el);
