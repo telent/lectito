@@ -47,7 +47,10 @@ class BooksController < ApplicationController
 
   def reshelve
     book=Book.find(params[:id])
-    check_authorized { book.owner == current_user }
+    check_authorized { 
+      (book.owner == current_user) ||
+      (book.borrower == current_user) 
+    }
     book.reshelve(Shelf.find(params[:shelf_id]))
     respond_to do |format|
       format.html { redirect_to :action=>:show }
