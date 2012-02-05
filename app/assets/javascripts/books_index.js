@@ -17,6 +17,7 @@ Lectito.Views.ULView=Backbone.View.extend({
     initialize: function() {
 	this.collection.map(function(m) {m.set({selected: true})});
 	this.collection.bind("all",this.render,this);
+	if(!this.options.where) this.options.where=_.identity;
 	this.render();
     },
     events: {
@@ -39,7 +40,7 @@ Lectito.Views.ULView=Backbone.View.extend({
     render: function() {
 	var ul=$(this.el);
 	ul.html("");
-	_.each(this.li_for_collection(this.collection),
+	_.each(this.li_for_collection(this.collection.filter(this.options.where)),
 	       function(ael){
 		   ul.append(ael);
 	       });
@@ -114,11 +115,11 @@ Lectito.Views.BooksView=Backbone.View.extend({
 	Store.collections.bind("change",this.render,this);
     },
     where: function(row) {
-	return true;
-	var col=Store.collections.get(row.get('collection_id'));
-	var s=(Store.shelves.get(row.get('home_shelf_id')).get('selected') &&
-	       ((col == null) || col.get('selected')));
-	return s;
+	var col=row.book_collection();
+	var hs=row.home_shelf();
+	var cs=row.current_shelf();
+	return col && col.get('selected') &&
+	    ((hs && hs.get('selected')) || (cs && cs.get('selected')));
     },
     renderItem: function(book) {
 	var iv = new Lectito.Views.BookView({model: book});
@@ -142,7 +143,12 @@ jQuery(document).ready(function() {
 	var collectionsView=new Lectito.Views.ULView({
 	    collection:  Store.collections
 	});
-	var shelvesView=new Lectito.Views.ULView({collection: Store.shelves});
+	var shelvesView=new Lectito.Views.ULView({
+	    collection: Store.shelves,
+	    where: function(shelf) {
+		return (shelf.get('user_id')==current_user.id)
+	    }
+	});
 	var booksView=new Lectito.Views.BooksView({collection:  Store.books});
 	$('#collections').append(collectionsView.render().el);
 	$('#shelves').append(shelvesView.render().el);
