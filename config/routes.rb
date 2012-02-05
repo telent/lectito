@@ -4,7 +4,7 @@ Lectito::Application.routes.draw do
   match '/logout' => 'sessions#destroy'
   match '/login' => 'sessions#new'
 
-  resources :users,:stories,:shelves
+  resources :users,:stories,:shelves,:collections
 
   resources :books do
     member do
