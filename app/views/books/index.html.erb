@@ -4,7 +4,8 @@
 <script>
 var shelf_data=<%= @current_user.shelves.to_json.html_safe %>;
 var collection_data=<%= @current_user.collections.to_json.html_safe %>;
-var book_data=<%= @current_user.books.to_json(include: :edition).html_safe %>;
+var book_data=<%= @current_user.all_books.to_json(include: :edition).html_safe %>;
+var user_data=<%= @current_user.to_json.html_safe %>;
 </script>
 
 <div id=book_manager>
@@ -44,11 +45,8 @@ var book_data=<%= @current_user.books.to_json(include: :edition).html_safe %>;
   <table id=booklist class=manager style="font-size: 10pt">
     <col class="check"/>
     <col class="where"/>
-    <col class="current_location"/>
     <col class="book"/>
     <col class="added"/>
-    <col class="edit"/>
-    <col class="destroy"/>
     <col />
     <thead>
       <tr class=header>
@@ -60,12 +58,9 @@ var book_data=<%= @current_user.books.to_json(include: :edition).html_safe %>;
 	    <option value=invert>Invert</option>
 	  </select>
 	</th>
-	<th>Home</th>
 	<th>Location</th>
 	<th>Book</th>
-      <th>Added</th>
-	<th />
-	<th />
+	<th>Added</th>
       </tr>
     </thead>
   <% [].each do |book|  %>
@@ -83,11 +78,14 @@ var book_data=<%= @current_user.books.to_json(include: :edition).html_safe %>;
 
 <script id="booklist_row_template" type="text/x-template">
   <td class=check><input type=checkbox name=check[] value={{ id }} /></td>
-  <td>{{ home_shelf }}</td>
-  <td>{{ current_shelf }}</td>
+  <td>{{ location }}</td>
   <td><a href="/books/{{ id}}">{{ author }}, &ldquo;{{ title }}&rdquo;</a></td>
-  <td>
-    <abbr class="timeago" title="{{ created_at }}">{{ created_at }}</abbr>
+  <td class=added>
+    Added <abbr class="timeago" title="{{ created_at }}">{{ created_at }}</abbr>
   </td>
+  <td class=borrowed>
+    Borrowed from {{ lender }}
+  </td>
+
 </script>
 

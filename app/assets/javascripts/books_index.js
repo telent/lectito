@@ -62,19 +62,41 @@ _.templateSettings = {
 Lectito.Views.BookView=Backbone.View.extend({
     tagName: 'tr',
     className: 'booklist_row',
+    initialize: function() {
+	Store.users.bind("change",this.render,this);
+	this.model.bind("sync",this.render,this);
+    },
     render: function() {
-	var templ=$('#booklist_row_template').html();
 	var m=this.model;
+	var templ=$('#booklist_row_template').html();
+	var cs=m.current_shelf();
+	var hs=m.home_shelf();
+	var collection=m.book_collection();
+	var owner=m.owner();
+	var borrower=m.borrower();
+	// These may be undefined if the calls triggered AJAX requests
+	// Stop rendering now and wait for the "sync" events
+	if(_.include([cs,hs,collection,owner,borrower],undefined)) {
+	    return;
+	}
+	var my_book = (owner.id==current_user.id);
 	var e=m.get('edition');
-	var cs=m.get('current_shelf_id');
 	var data={
-	    id: m.get('id'),
-	    current_shelf: (cs ? shelves.get(cs).get('name') : ""),
-	    home_shelf: shelves.get(m.get('home_shelf_id')).get('name'),
+	    id: m.id,
+	    location: my_book ? 
+		(borrower ? borrower.get('nickname') : hs.get('name')) :
+	    (cs ? cs.get('name') : "unshelved"),
 	    author: e['author'], title: e['title'],
-	    created_at: $.timeago(m.get('created_at'))
+	    created_at: $.timeago(m.get('created_at')),
+	    lender: owner.get("nickname")
 	};
-	var html=_.template(templ,data);
+	var html=$(_.template(templ,data));
+
+	if(my_book) 
+	    html=_.reject(html,function(l) {return l.className=='borrowed';});
+	else 
+	    html=_.reject(html,function(l) {return l.className=='added';});
+
 	$(this.el).
 	    html(html).
 	    data('model',m).
@@ -90,8 +112,10 @@ Lectito.Views.BooksView=Backbone.View.extend({
 	Store.collections.bind("change",this.render,this);
     },
     where: function(row) {
-	var s=(shelves.get(row.get('home_shelf_id')).get('selected') &&
-	       collections.get(row.get('collection_id')).get('selected'));
+	return true;
+	var col=Store.collections.get(row.get('collection_id'));
+	var s=(Store.shelves.get(row.get('home_shelf_id')).get('selected') &&
+	       ((col == null) || col.get('selected')));
 	return s;
     },
     renderItem: function(book) {
