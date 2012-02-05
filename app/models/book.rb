@@ -11,7 +11,15 @@ class Book < ActiveRecord::Base
   def owner
     self.collection.user
   end
-  
+  def owner_id
+    self.collection.user_id
+  end
+
+  def as_json(options={})
+    super(options.merge({:methods=>:owner_id}))
+  end
+
+
   def home?
     # current_shelf may be nil if the book has been loaned and the 
     # recipient has not decided where to put it, or if the book is
