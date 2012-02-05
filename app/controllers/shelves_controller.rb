@@ -1,10 +1,10 @@
 class ShelvesController < ApplicationController
   def index
-    @shelves=current_user.shelves
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @shelves }
-    end
+    respond_with @shelves=current_user.shelves
   end
+  def show
+    respond_with @shelf=Shelf.find(params[:id])
+  end
+
 end
 

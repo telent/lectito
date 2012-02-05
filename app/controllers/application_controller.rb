@@ -15,4 +15,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def respond_with(val)
+    respond_to do |format|
+      format.html 
+      format.json { render json: val }
+    end
+  end
+  
+
 end
