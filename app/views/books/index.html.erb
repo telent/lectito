@@ -11,18 +11,18 @@ var user_data=<%= @current_user.to_json.html_safe %>;
 <div id=book_manager>
   <div id=leftbar>
     <div id=shelves>
-      Shelves
+      <span>Shelves</span>
       <!-- backbone view goes here -->
     </div>
     <div id=collections>
-      Collections
+      <span>Collections</span>
       <!-- backbone view goes here -->
     </div>
     <div id=owners>
-      Owner
+      <span>Owner</span>
     </div>
     <div id=tags>
-      Tags
+      <span>Tags</span>
     </div>
   </div>
 
@@ -31,17 +31,10 @@ var user_data=<%= @current_user.to_json.html_safe %>;
   <ul class=toolbar id=toolbar>
     <li>
       <%= collection_select(:reshelve,:shelf_id,@shelves,:id,:name,
-	  :prompt=>"Change home shelf") %></li>
+	  :prompt=>"Change shelf") %></li>
     <li>
-      <%= collection_select(:reshelve,:current_shelf_id,@shelves,:id,:name,
-	  :prompt=>"Change current shelf") %></li>
-    <li>
-      <%= collection_select(:collection,:collection_id,@collections,:id,:name,:prompt=>"Change
-      collection") %></li>
-    <li class=right>
-      <input type=submit value=Update />
+      <%= collection_select(:collection,:collection_id,@collections,:id,:name,:prompt=>"Change collection") %></li>
   </ul>
-  <p> </p>
   <table id=booklist class=manager style="font-size: 10pt">
     <col class="check"/>
     <col class="where"/>

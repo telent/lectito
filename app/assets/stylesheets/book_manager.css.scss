@@ -5,19 +5,28 @@ div#book_manager {
 	margin-right:  20px;
 	font-size: 12px;
 	div  {
+	    margin-bottom:12px;
 	    max-height: 100px;
 	    font-weight: bold;
-	    margin-bottom: 1em;
-	    padding: 0 0 6px 0.5em;
+	    padding: 0 0 0px 0em;
 	    border: 1px solid #bbb;
 	    overflow: hidden;
-	    ul li {
-		font-weight: normal;
-		margin: 0 6px 0 6px;
-		padding: 0 10px 0 10px;
+	    span {
+		display: block;
+		margin-bottom: 6px;
 	    }
-	    ul li.selected {
-		background-color: #ddf;
+	    ul {
+		padding: 0;
+		margin: 0;
+		li {
+		    font-weight: normal;
+		    padding: 0 10px 0 15px;
+		    margin: 1px;
+		}
+		li.selected {
+		    background-color: #ddf;
+		    font-weight: bold;
+		}
 	    }
 	}
 	div:hover {
@@ -28,12 +37,17 @@ div#book_manager {
 	display: inline-block;
 	
     }
-    table td {
-	padding-right: 1em;
-    }
-    table col.book {
-	width: 25em;
-    }
+    table {
+	td {
+	    padding-right: 1em;
+	}
+	col.location {
+	    width: 15em;
+	}
+	col.book {
+	    width: 25em;
+	}
+    }    
     th#check select#mark  {
 	width: 40px;
     }
