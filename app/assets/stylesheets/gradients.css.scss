@@ -1,0 +1,14 @@
+// @include b-linear-gradient((top, #ff0000 0%, #ffff00 50%, #ff00ff 100%))
+
+@mixin b-linear-gradient($n) {
+    @each $prefix in -moz-, -webkit-, -o-, -ms-, '' {
+	background: #{$prefix}linear-gradient($n);
+    }
+    $first: nth(nth($n,2),1);
+    $last: nth(nth($n,length($n)),1);
+    filter: progid:DXImageTransform.Microsoft.gradient(
+	startColorstr=#{$first}, 
+	endColorstr= #{$last},
+	GradientType=1 ); 
+};
+
