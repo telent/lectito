@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120124210839) do
+ActiveRecord::Schema.define(:version => 20120205183118) do
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -24,7 +24,6 @@ ActiveRecord::Schema.define(:version => 20120124210839) do
   add_index "authorizations", ["user_id"], :name => "index_authorizations_on_user_id"
 
   create_table "books", :force => true do |t|
-    t.integer  "owner_id"
     t.integer  "borrower_id"
     t.string   "references"
     t.integer  "current_shelf_id"
@@ -39,7 +38,6 @@ ActiveRecord::Schema.define(:version => 20120124210839) do
   add_index "books", ["borrower_id"], :name => "index_books_on_borrower_id"
   add_index "books", ["current_shelf_id"], :name => "index_books_on_current_shelf_id"
   add_index "books", ["edition_id"], :name => "index_books_on_edition_id"
-  add_index "books", ["owner_id"], :name => "index_books_on_owner_id"
 
   create_table "collections", :force => true do |t|
     t.integer  "user_id"
