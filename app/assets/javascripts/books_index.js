@@ -128,10 +128,14 @@ Lectito.Views.BookView=Backbone.View.extend({
 	if(!first_time) {
 	    var v=m.changedAttributes();
 	    if(v && _.keys(v).join("") == "selected") {
+		this.$('input').attr("checked",m.get('selected'));
 		return this;
+	    } else if(v) {
+		console.log("changed",_.keys(v));
 	    } else {
+		// not the first time and nothing changed: skip the repaint
 		return this;
-	    } 
+	    }
 	}
 
 	var my_book = (owner.id==current_user.id);
@@ -236,6 +240,20 @@ jQuery(document).ready(function() {
 	$('.shelf',act).append(changeShelfView.render().el);
 	$('.collection',act).append(changeCollectionView.render().el);
 	debugv=booksView;
+	$('#mark').change(function(e) {
+	    var v=e.target.value;
+	    if(v=='all') 
+		Store.books.each(function(b) { b.set({selected: true});});
+	    else if(v=='none')
+		Store.books.each(function(b) { b.set({selected: false});});
+	    else if(v=='invert'){
+		Store.books.each(function(b) { 
+		    var s=!b.get('selected');
+		    b.set({selected: s});
+		});
+	    }
+	    e.target.value='title';
+	});
     }
 });
 
