@@ -30,10 +30,15 @@ var user_data=<%= @current_user.to_json.html_safe %>;
  								
   <ul class=toolbar id=toolbar>
     <li>
-      <%= collection_select(:reshelve,:shelf_id,@shelves,:id,:name,
-	  :prompt=>"Change shelf") %></li>
-    <li>
-      <%= collection_select(:collection,:collection_id,@collections,:id,:name,:prompt=>"Change collection") %></li>
+      <select id=mark>
+	<option value=title>&#x2713;</option>
+	<option value=all>All</option>
+	<option value=none>None</option>
+	<option value=invert>Invert</option>
+      </select>
+    </li>
+    <li class="shelf" />
+    <li class="collection" />
   </ul>
   <table id=booklist class=manager style="font-size: 10pt">
     <col class="check"/>
@@ -43,25 +48,12 @@ var user_data=<%= @current_user.to_json.html_safe %>;
     <col />
     <thead>
       <tr class=header>
-	<th id=check>
-	  <select id=mark>
-	    <option value=title>&#x2713;</option>
-	    <option value=all>All</option>
-	    <option value=none>None</option>
-	    <option value=invert>Invert</option>
-	  </select>
-	</th>
 	<th>Location</th>
 	<th>Book</th>
 	<th>Added</th>
       </tr>
     </thead>
-  <% [].each do |book|  %>
-  <%= render :partial=>"row", :locals => {
-  :book=>book,:columns=>[:check,:home_location, :current_location,:added] 
-  } %>
-  <% end %>
-</table>
+  </table>
 
 <% end # form %>
 <br style="clear: both">
@@ -70,7 +62,9 @@ var user_data=<%= @current_user.to_json.html_safe %>;
 <%= link_to 'New Book', new_book_path %>
 
 <script id="booklist_row_template" type="text/x-template">
-  <td class=check><input type=checkbox name=check[] value={{ id }} /></td>
+  <td class=check>
+    <input type=checkbox name=check  value={{ id }} />
+  </td>
   <td>{{ location }}</td>
   <td><a href="/books/{{ id}}">{{ author }}, &ldquo;{{ title }}&rdquo;</a></td>
   <td class=added>

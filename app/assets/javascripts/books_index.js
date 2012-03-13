@@ -62,6 +62,39 @@ _.templateSettings = {
     escape : /\{\{(.+?)\}\}/g,
 };
 
+Lectito.Views.ChangeThing=Backbone.View.extend({
+    tagName: 'li',
+    initialize: function() {
+	this.collection.bind("change",this.render,this);
+	Store.books.bind("change:selected",this.set_visible,this);
+	this.render();
+    },
+    events: {
+	"change" : "change_thing",
+    },
+    set_visible: function() {
+	var sel=Store.books.filter(function(c) {return c.get('selected');});
+	if(sel.length)
+	    this.$('select').removeAttr('disabled');
+	else
+	    this.$('select').attr('disabled','disabled');
+    },
+    change_thing: function() {
+	console.log("changing ",this.options.name," for",Store.books.filter(function(c) {return c.get('selected');}));
+	this.$('select').val("-1")
+    },
+    render: function() {
+	var div=$(this.el);
+	var inner="<select><option value=-1>Change "+this.options.name+"</option>"+
+	    this.options.collection.map(function(x) {
+		return "<option value="+x.id+">"+x.get('name')+"</option>"
+	    }).join("")+
+	    "</select>";
+	$(div).html(inner);
+	return this;
+    }
+});
+
 Lectito.Views.BookView=Backbone.View.extend({
     tagName: 'tr',
     className: 'booklist_row',
@@ -69,23 +102,44 @@ Lectito.Views.BookView=Backbone.View.extend({
 	Store.users.bind("change",this.render,this);
 	this.model.bind("sync",this.render,this);
     },
-    render: function() {
+    events: {
+	"change td.check input": "toggle_checked"
+    },
+    toggle_checked: function () {
+	var inp=this.$("td.check input");
+	this.model.set({'selected': inp.attr('checked')});
+	return true;
+    },
+    render: function(first_time) {
+	// These may be undefined if the calls triggered AJAX requests
+	// Stop rendering now and wait for the "sync" events
 	var m=this.model;
-	var templ=$('#booklist_row_template').html();
 	var cs=m.current_shelf();
 	var hs=m.home_shelf();
 	var collection=m.book_collection();
 	var owner=m.owner();
 	var borrower=m.borrower();
-	// These may be undefined if the calls triggered AJAX requests
-	// Stop rendering now and wait for the "sync" events
 	if(_.include([cs,hs,collection,owner,borrower],undefined)) {
-	    return;
+	    return this;
 	}
+
+	var templ=$('#booklist_row_template').html();
+
+	if(!first_time) {
+	    var v=m.changedAttributes();
+	    if(v && _.keys(v).join("") == "selected") {
+		return this;
+	    } else {
+		return this;
+	    } 
+	}
+
 	var my_book = (owner.id==current_user.id);
 	var e=m.get('edition');
+
 	var data={
 	    id: m.id,
+	    checked: false, //m.has('selected'),
 	    location: my_book ? 
 		(borrower ? borrower.get('nickname') : hs.get('name')) :
 	    (cs ? cs.get('name') : "unshelved"),
@@ -109,10 +163,20 @@ Lectito.Views.BookView=Backbone.View.extend({
 });
 Lectito.Views.BooksView=Backbone.View.extend({
     tagName: 'tbody',
+    bookViews: {},
     initialize: function() {
 	this.collection.bind("all",this.render,this);
 	Store.shelves.bind("change",this.render,this);
 	Store.collections.bind("change",this.render,this);
+	this.$el.empty();
+	var dad=this;
+	this.collection.each(function(m) {
+	    var view=new Lectito.Views.BookView({model: m});
+	    dad.bookViews[m.id]=view;
+	});
+	this.$el.append(_.values(this.bookViews).
+			map(function(v) {return v.el}));
+	return this;
     },
     where: function(row) {
 	var col=row.book_collection();
@@ -121,14 +185,17 @@ Lectito.Views.BooksView=Backbone.View.extend({
 	return col && col.get('selected') &&
 	    ((hs && hs.get('selected')) || (cs && cs.get('selected')));
     },
-    renderItem: function(book) {
-	var iv = new Lectito.Views.BookView({model: book});
-	iv.render();
-	$(this.el).append(iv.el);
-    },
     render: function() {
-	$(this.el).html("");
-	this.collection.filter(this.where).map(this.renderItem,this);
+	var dad=this;
+	_(this.collection.filter(this.where)).each(function(m) {
+	    var v=dad.bookViews[m.id];
+	    v.render();
+	    v.$el.show();
+	});
+	_(this.collection.reject(this.where)).each(function(m) {
+	    var v=dad.bookViews[m.id];
+	    v.$el.hide();
+	});
 	return this;
     }
 });
@@ -156,68 +223,20 @@ jQuery(document).ready(function() {
 	var booksView=new Lectito.Views.BooksView({collection:  Store.books});
 	$('#collections').append(collectionsView.render().el);
 	$('#shelves').append(shelvesView.render().el);
-	$('#booklist').append(booksView.render().el);
-	debugv=shelvesView;
+	$('#booklist').append(booksView.render(true).el);
+	var act=$('#toolbar');
+	var changeShelfView=new Lectito.Views.ChangeThing({
+	    collection: Store.shelves,
+	    name: "shelf"
+	});
+	var changeCollectionView=new Lectito.Views.ChangeThing({
+	    collection: Store.collections,
+	    name: "collection"
+	});
+	$('.shelf',act).append(changeShelfView.render().el);
+	$('.collection',act).append(changeCollectionView.render().el);
+	debugv=booksView;
     }
 });
 
-
-// =================================================
-
-jQuery(document).ready(function() {
-	if(($('body').data('controller')=='books') &&
-	   ($('body').data('action')=='inadex')) {
-	    $('select#mark').change(function(e) {
-		    var v=e.target.value;
-		    var sel='td.check input[type=checkbox]';
-		    if(v=='all') {
-			$(sel).attr("checked","checked");
-		    } else if(v=='none') {
-			$(sel).removeAttr("checked");
-		    } else if(v=='invert') {
-			$(sel).map(function(i,el) {
-				if(el.checked) $(el).removeAttr("checked");
-				else $(el).attr("checked","checked");
-			    });
-		    }
-		    e.preventDefault();
-		    e.target.value='title';
-		});
-	    $('input[type=checkbox]').click(function(e) {
-		    // mimic the gmail behaviour for shift-clicks:
-		    // if this box is to be checked, also check
-		    // every box between this one and the previous most recently
-		    // clicked box.  If to be unchecked, uncheck
-		    // likewise
-		    if(e.shiftKey && previously_selected) {
-			var tr=$(e.target).closest("tr");
-			var rng=tr.nextUntil(previously_selected);
-			// nextUntil returns all following siblings if 
-			// the arg selector is not found, hence this rather
-			// involved test to see if we should be looking upward
-			// or downward
-			if (!rng.last().next().length) {
-			    rng=previously_selected.nextUntil(tr);
-			}
-			rng.map(function(i,el) { $("input[type=checkbox]",el)[0].checked=e.target.checked});		    
-		    }
-		    previously_selected=$(e.target).closest("tr");
-		    
-		});
-	    
-	    $("table th").click(function(e) {
-		    if (this.id == 'check') { return; };
-		    var sort_key=e.target.firstChild.textContent.toLowerCase();
-		    var params=document.location.search.substr(1).split('&').reduce(function(h,p) { var kv=p.split('=',2); h[kv[0]]=kv[1] ; return h }, {});
-		    if (params.sort==sort_key) {
-			params.direction = (params.direction == 'a') ? 'd' : 'a';
-		    } else {
-			params.sort=sort_key;
-			params.direction = 'a';
-		    };
-		    params.page='1';
-		    var  p_new=$.map(params,function(v,k) { return k+"="+v }).join("&");
-		    document.location=document.location.pathname+"?"+p_new;
-		});
-	}});
 
