@@ -80,8 +80,11 @@ Lectito.Views.ChangeThing=Backbone.View.extend({
 	    this.$('select').attr('disabled','disabled');
     },
     change_thing: function() {
-	console.log("changing ",this.options.name," for",Store.books.filter(function(c) {return c.get('selected');}));
-	this.$('select').val("-1")
+	var m=this.options.collection.get(this.$('select').val());
+	var books=Store.books.filter(function(c) {return c.get('selected');});
+	m.add_books(books);
+	this.$('select').val("-1");
+	_(books).each(function(b){ b.unset('selected');	});
     },
     render: function() {
 	var div=$(this.el);
