@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.0'
+gem 'rails' #, '~> 3.2'
 # as of Sun Jan 22 19:12:51 GMT 2012, omniauth requires rack HEAD
-gem 'rack',:git=>'https://github.com/rack/rack.git'
+#gem 'rack',:git=>'https://github.com/rack/rack.git'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
