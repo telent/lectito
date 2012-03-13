@@ -108,10 +108,9 @@ Lectito.Views.BookView=Backbone.View.extend({
     events: {
 	"change td.check input": "toggle_checked"
     },
-    toggle_checked: function () {
+    toggle_checked: function (e) {
 	var inp=this.$("td.check input");
 	this.model.set({'selected': inp.attr('checked')});
-	return true;
     },
     render: function(first_time) {
 	// These may be undefined if the calls triggered AJAX requests
@@ -171,6 +170,27 @@ Lectito.Views.BookView=Backbone.View.extend({
 Lectito.Views.BooksView=Backbone.View.extend({
     tagName: 'tbody',
     bookViews: {},
+    events: {
+	"click tr td.check input": "checked_range"
+    },
+    checked_range: function(e) {
+	if(e.shiftKey) {
+	    var tr=$(e.target).closest('tr');
+	    var rng=tr.nextUntil(this.selectedRange);
+	    // nextUntil returns all following siblings if 
+	    // the arg selector is not found, hence this rather
+	    // involved test to see if we should be looking upward
+	    // or downward
+	    if (!rng.last().next().length) {
+		rng=this.selectedRange.nextUntil(tr);
+	    }
+	    rng.map(function(i,el) {
+		$(el).data("model").set({'selected': true});
+	    });		    
+	} else {
+	    this.selectedRange=$(e.target).closest('tr');
+	}
+    },
     initialize: function() {
 	this.collection.bind("all",this.render,this);
 	Store.shelves.bind("change",this.render,this);
