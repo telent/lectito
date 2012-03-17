@@ -67,5 +67,27 @@ describe Book do
       assert_equal @borrower, @book.borrower
     end
   end
+  describe 'tags' do
+    it "#tag creates a tag with appropriate edition/user links" do
+      @book=Book.create(:edition=>@edition,
+                        :home_shelf=>@shelf,
+                        :collection=>@collection)
+      tag=@book.tag 'fiction'
+      assert_equal @edition,tag.edition
+      assert_equal @user,tag.user
+      assert_equal @book,tag.book
+      assert_equal 'fiction',tag.name
+    end
+    it "#tag_names returns a list of tag names" do
+      @book=Book.create(:edition=>@edition,
+                        :home_shelf=>@shelf,
+                        :collection=>@collection)
+      test_tags=%w(fiction sf 2011 hello)
+      test_tags.each do|tg|
+        @book.tag tg
+      end
+      assert_equal test_tags.sort, @book.tag_names.sort
+    end
+  end
 end
        

@@ -1,4 +1,3 @@
-// var previously_selected;
 var current_user;
 
 Lectito.Views.ULView=Backbone.View.extend({
@@ -30,12 +29,9 @@ Lectito.Views.ULView=Backbone.View.extend({
 	m.set({selected:  !selected});
     },
     do_add_book: function(e,drop,ui) {
-	// jquery drop events don't work with delegate, so we need to 
-	// attach them with bind directly, meaning this function gets
-	// called with the wrong 'this'
 	var shelf=$(drop).data('model');
 	var model=ui.draggable.data('model');
-	model.reshelve(shelf);
+	model.post_attribute(this.options.collection_name,shelf.id);
     },
     render: function() {
 	var ul=$(this.el);
@@ -53,7 +49,9 @@ Lectito.Views.ULView=Backbone.View.extend({
 	    tolerance: 'pointer'
 	});
 	var view=this;
-	lines.bind("drop",function(e,ui) {view.do_add_book.call(view,e,this,ui)});
+	lines.bind("drop",function(e,ui) {
+	    view.do_add_book.call(view,e,this,ui)
+	});
 	return this;
     }
 }); 
@@ -80,17 +78,21 @@ Lectito.Views.ChangeThing=Backbone.View.extend({
 	    this.$('select').attr('disabled','disabled');
     },
     change_thing: function() {
-	var m=this.options.collection.get(this.$('select').val());
 	var books=Store.books.filter(function(c) {return c.get('selected');});
-	m.add_books(books);
+	var v=this;
+	_(books).each(function(b){ 
+	    var d={}
+	    b.post_attribute(v.options.path,v.$('select').val());
+	    b.unset('selected');
+	});			     
 	this.$('select').val("-1");
-	_(books).each(function(b){ b.unset('selected');	});
     },
     render: function() {
 	var div=$(this.el);
-	var inner="<select><option value=-1>Change "+this.options.name+"</option>"+
+	var inner="<select><option value=-1>"+this.options.title+"</option>"+
 	    this.options.collection.map(function(x) {
-		return "<option value="+x.id+">"+x.get('name')+"</option>"
+		var n=x.get('name') || x.get('id') ;
+		return "<option value="+x.id+">"+n+"</option>"
 	    }).join("")+
 	    "</select>";
 	$(div).html(inner);
@@ -133,7 +135,7 @@ Lectito.Views.BookView=Backbone.View.extend({
 		this.$('input').attr("checked",m.get('selected'));
 		return this;
 	    } else if(v) {
-		console.log("changed",_.keys(v));
+		// console.log("changed",_.keys(v));
 	    } else {
 		// not the first time and nothing changed: skip the repaint
 		return this;
@@ -234,8 +236,10 @@ jQuery(document).ready(function() {
 	Store.shelves.reset(shelf_data);
 	Store.collections.reset(collection_data);
 	Store.books.reset(book_data);
+	Store.tagnames.reset(tag_data);
 	var collectionsView=new Lectito.Views.ULView({
 	    collection:  Store.collections,
+	    collection_name: 'collection',
 	    where: function(model) {
 		return (model.get('user_id')==current_user.id)
 	    }
@@ -243,6 +247,7 @@ jQuery(document).ready(function() {
 	});
 	var shelvesView=new Lectito.Views.ULView({
 	    collection: Store.shelves,
+	    collection_name: 'shelf',
 	    where: function(model) {
 		return (model.get('user_id')==current_user.id)
 	    }
@@ -254,14 +259,24 @@ jQuery(document).ready(function() {
 	var act=$('#toolbar');
 	var changeShelfView=new Lectito.Views.ChangeThing({
 	    collection: Store.shelves,
-	    name: "shelf"
+	    path: "shelf",
+	    title: "Change shelf"
 	});
 	var changeCollectionView=new Lectito.Views.ChangeThing({
 	    collection: Store.collections,
-	    name: "collection"
+	    path: "collection",
+	    title: "Change collection"
 	});
+
+	var addTagView=new Lectito.Views.ChangeThing({
+	    collection: Store.tagnames,
+	    path: "tag",
+	    title: "Add tag"
+	});
+
 	$('.shelf',act).append(changeShelfView.render().el);
 	$('.collection',act).append(changeCollectionView.render().el);
+	$('.tags',act).append(addTagView.render().el);
 	debugv=booksView;
 	$('#mark').change(function(e) {
 	    var v=e.target.value;

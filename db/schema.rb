@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120205183118) do
+ActiveRecord::Schema.define(:version => 20120314162532) do
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -87,6 +87,19 @@ ActiveRecord::Schema.define(:version => 20120205183118) do
   end
 
   add_index "stories", ["user_id"], :name => "index_stories_on_user_id"
+
+  create_table "tags", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "edition_id"
+    t.integer  "book_id"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "tags", ["book_id"], :name => "index_tags_on_book_id"
+  add_index "tags", ["edition_id"], :name => "index_tags_on_edition_id"
+  add_index "tags", ["user_id"], :name => "index_tags_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "nickname"

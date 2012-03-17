@@ -2,6 +2,7 @@ class Edition < ActiveRecord::Base
   validates :title, :presence=>true
   validates :author, :presence=>true
   has_many :books
+  has_many :tags
 
   class << self
     def find_isbn(isbn,sources=EditionSources)

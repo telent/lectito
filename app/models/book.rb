@@ -5,7 +5,8 @@ class Book < ActiveRecord::Base
   belongs_to :borrower, :class_name=>"User"
   belongs_to :collection
   belongs_to :edition
-  
+  has_many :tags
+
   def_delegators :edition, :title, :author, :publisher, :isbn
 
   def owner
@@ -15,8 +16,12 @@ class Book < ActiveRecord::Base
     self.collection.user_id
   end
 
+  def tag_names
+    self.tags.map(&:name)
+  end
+
   def as_json(options={})
-    super(options.merge({:methods=>:owner_id}))
+    super(options.merge({:methods=>[:owner_id,:tag_names]}))
   end
 
 
@@ -68,6 +73,11 @@ class Book < ActiveRecord::Base
     self.borrower=nil
     self.save
     Event.publish(:actor=>b,:action=>:return,:book=>self)
+  end
+
+  def tag(tagname,user=nil)
+    user||= self.owner
+    Tag.create edition: self.edition, user: user, book: self, name: tagname.id
   end
 
 end

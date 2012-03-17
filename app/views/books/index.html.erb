@@ -6,6 +6,7 @@ var shelf_data=<%= @current_user.shelves.to_json.html_safe %>;
 var collection_data=<%= @current_user.collections.to_json.html_safe %>;
 var book_data=<%= @current_user.all_books.to_json(include: :edition).html_safe %>;
 var user_data=<%= @current_user.to_json.html_safe %>;
+var tag_data=<%= @current_user.tagnames.to_json.html_safe %>;
 </script>
 
 <div id=book_manager>
@@ -39,6 +40,7 @@ var user_data=<%= @current_user.to_json.html_safe %>;
     </li>
     <li class="shelf" />
     <li class="collection" />
+    <li class="tags" />
   </ul>
   <table id=booklist class=manager style="font-size: 10pt">
     <col class="check"/>

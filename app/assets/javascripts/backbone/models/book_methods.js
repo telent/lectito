@@ -1,17 +1,18 @@
 (function() {
-    this.reshelve=function(shelf) {
-	var url=this.url()+"/reshelve.json";
+    this.post_attribute=function(path,value) {
+	var url=this.url()+"/"+path;
 	var book=this;
 	jQuery.ajax(url,{
-	    data: {shelf_id: shelf.get('id')},
+	    data: {value: value},
 	    dataType: 'json',
 	    type: 'POST',
 	    error: function(xhr,s,e) { console.log("failed ",s,e); },
 	    success: function (r,s) {
-		book.fetch(); 
+		book.set(r);
 	    },
 	});
     };
+
     var async_get=function(coll,field) {
 	var id=this.get(field+"_id");
 	if(id) {

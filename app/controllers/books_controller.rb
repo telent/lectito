@@ -45,16 +45,41 @@ class BooksController < ApplicationController
 
   # XXX need an update method.
 
-  def reshelve
+  # 
+  def post_attribute(method,model)
     book=Book.find(params[:id])
-    check_authorized { 
-      (book.owner == current_user) ||
-      (book.borrower == current_user) 
-    }
-    book.reshelve(Shelf.find(params[:shelf_id]))
+    yield book
+    book.send(method,model.find(params[:value]))
     respond_to do |format|
       format.html { redirect_to :action=>:show }
-      format.json { render json: ["OK"] }
+      format.json {
+        response.headers["Content-Location"] = url_for(book)
+        render json: book
+      }
+    end
+  end
+
+  def shelf
+    post_attribute :reshelve,Shelf do |book|
+      check_authorized { 
+        (book.owner == current_user) ||
+        (book.borrower == current_user) 
+      }
+    end
+  end
+
+  def collection
+    post_attribute :collection=,Collection do |book|
+      check_authorized { 
+        (book.owner == current_user) 
+      }
+    end
+  end
+
+  def tag
+    post_attribute :tag,Tagname do |book|
+      # anyone can tag any book
+      true
     end
   end
 
