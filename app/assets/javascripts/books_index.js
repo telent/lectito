@@ -252,9 +252,18 @@ jQuery(document).ready(function() {
 		return (model.get('user_id')==current_user.id)
 	    }
 	});
+	var tagsView=new Lectito.Views.ULView({
+	    collection: Store.tagnames,
+	    collection_name: 'tagnames',
+	    name: 'id',
+	    where: function(model) {
+		return true;
+	    }
+	});
 	var booksView=new Lectito.Views.BooksView({collection:  Store.books});
 	$('#collections').append(collectionsView.render().el);
 	$('#shelves').append(shelvesView.render().el);
+	$('#tags').append(tagsView.render().el);
 	$('#booklist').append(booksView.render(true).el);
 	var act=$('#toolbar');
 	var changeShelfView=new Lectito.Views.ChangeThing({
