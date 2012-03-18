@@ -197,6 +197,7 @@ Lectito.Views.BooksView=Backbone.View.extend({
 	this.collection.bind("all",this.render,this);
 	Store.shelves.bind("change",this.render,this);
 	Store.collections.bind("change",this.render,this);
+	Store.tagnames.bind("change:selected",this.render,this);
 	this.$el.empty();
 	var dad=this;
 	this.collection.each(function(m) {
@@ -211,8 +212,11 @@ Lectito.Views.BooksView=Backbone.View.extend({
 	var col=row.book_collection();
 	var hs=row.home_shelf();
 	var cs=row.current_shelf();
-	return col && col.get('selected') &&
-	    ((hs && hs.get('selected')) || (cs && cs.get('selected')));
+	var selected_tag_names=_(Store.tagnames.filter(function(t) {return t.get('selected');})).pluck('id')
+	var ret= col && col.get('selected') &&
+	    ((hs && hs.get('selected')) || (cs && cs.get('selected'))) &&
+	    _.intersect(row.get('tag_names'),selected_tag_names).length;
+	return ret;
     },
     render: function() {
 	var dad=this;
