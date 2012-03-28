@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120319225653) do
+ActiveRecord::Schema.define(:version => 20120328124713) do
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -38,6 +38,14 @@ ActiveRecord::Schema.define(:version => 20120319225653) do
   add_index "books", ["borrower_id"], :name => "index_books_on_borrower_id"
   add_index "books", ["current_shelf_id"], :name => "index_books_on_current_shelf_id"
   add_index "books", ["edition_id"], :name => "index_books_on_edition_id"
+
+  create_table "collection_members", :force => true do |t|
+    t.integer "owner_id"
+    t.integer "member_id"
+  end
+
+  add_index "collection_members", ["member_id"], :name => "index_collection_members_on_member_id"
+  add_index "collection_members", ["owner_id"], :name => "index_collection_members_on_owner_id"
 
   create_table "collections", :force => true do |t|
     t.integer  "user_id"
@@ -68,11 +76,9 @@ ActiveRecord::Schema.define(:version => 20120319225653) do
     t.datetime "updated_at",   :null => false
   end
 
-  create_table "followlinks", :force => true do |t|
-    t.integer  "follower_id"
-    t.integer  "followed_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+  create_table "followlinks", :id => false, :force => true do |t|
+    t.integer "follower_id"
+    t.integer "followed_id"
   end
 
   add_index "followlinks", ["followed_id"], :name => "index_followlinks_on_followed_id"
