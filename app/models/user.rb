@@ -6,9 +6,16 @@ class User < ActiveRecord::Base
   has_many :books, :through => :collections
   has_many :borrowed_books, :class_name=>"Book", :foreign_key=>:borrower_id
   has_many :tags
-  has_many :followlinks
-  has_many :followers, :class_name=>"User", :through => :followlinks
-  has_many :followeds, :class_name=>"User", :through => :followlinks
+
+  has_and_belongs_to_many :followers,:join_table=>:followlinks, 
+  :class_name=>"User",
+  :foreign_key=>:followed_id,
+  :association_foreign_key=>:follower_id
+  has_and_belongs_to_many :following,:join_table=>:followlinks, 
+  :class_name=>"User",
+  :foreign_key=>:follower_id,
+  :association_foreign_key=>:followed_id
+
 
   def name
     "#{nickname} (#{fullname})"
