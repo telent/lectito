@@ -58,6 +58,11 @@ class User < ActiveRecord::Base
       Relationship.find_or_create_by_follower_id_and_followed_id(self.id,user.id)
     end
   end
+
+  def following?(user)
+    Relationship.find_by_follower_id_and_followed_id(self.id,user.id) 
+  end
+
   def block(user)
     r=Relationship.unscoped.find_or_create_by_follower_id_and_followed_id(user.id,self.id)
     unless r.blocked?
