@@ -18,8 +18,16 @@ class User < ActiveRecord::Base
   :foreign_key=>:follower_id,
   :association_foreign_key=>:followed_id
 
+  has_many :following_rel, :foreign_key=>"follower_id",
+  :class_name => "Relationship",:dependent=>:destroy
+  has_many :follower_rel, :foreign_key=>"followed_id",
+  :class_name => "Relationship",:dependent=>:destroy
+  has_many :following, :through => :following_rel, :source => :followed
+  has_many :followers, :through => :follower_rel, :source => :follower
+
   def friends
-    (self.members + self.following + self.followers ).uniq
+    (self.collections.map(&:users).flatten +
+     self.following + self.followers ).uniq
   end
 
   def name
@@ -36,5 +44,25 @@ class User < ActiveRecord::Base
 
   def admin?
     false
+  end
+
+  def follow(user)
+    # blocked?  don't follow if blocked
+    r=Relationship.unscoped.where(:follower_id=>self.id,:followed_id=>user.id).first
+    if r && r.blocked? then
+      raise "Blocked"
+    else
+      # once a user has been followed and unfollowed, a *new* relationship
+      # is created if they are subsequently followed again.  Just because we 
+      # think it would be useful to have the history in case of complaints
+      Relationship.find_or_create_by_follower_id_and_followed_id(self.id,user.id)
+    end
+  end
+  def block(user)
+    r=Relationship.unscoped.find_or_create_by_follower_id_and_followed_id(user.id,self.id)
+    unless r.blocked?
+      r.blocked_at=Time.now
+      r.save
+    end
   end
 end

@@ -1,0 +1,29 @@
+<h1> <%= @user.name %> follows</h1>
+<table>
+<% if @following.count.zero? then %>
+<tr><td><i>Nobody</i></td></tr>
+<% end %>
+<% @following.each do |f|  %>
+<tr>
+  <td><%= f.followed.name %></td>
+  <td><%= f.followed.created_at.strftime("%F %R") %></td>
+  <td><%= link_to('Unfollow',{action: :destroy, id: f.id}, 
+	  { :method=> :delete }) %>
+  </td>
+</tr>
+<% end %>
+</table>
+<h1> <%= @user.name %> is followed by</h1>
+<table>
+<% if @followers.count.zero? then %>
+<tr><td><i>Nobody</i></td></tr>
+<% end %>
+<% @followers.each do |f|  %>
+<tr>
+  <td><%= f.follower.name %></td>
+  <td><%= link_to('Block',{action: :block, id: f.id}, 
+	  { :confirm=> 'Block this user?', :method=> :delete }) %>
+  </td>
+</tr>
+<% end %>
+</table>
