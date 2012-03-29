@@ -2,7 +2,7 @@ class CollectionsController < ApplicationController
   def index
     @collections=
       if uid=params[:user_id] then
-        User.find(uid)
+        User.find(uid).collections
       else
         current_user.collections
       end
