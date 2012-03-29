@@ -1,15 +1,14 @@
 class CollectionsController < ApplicationController
   def index
-    respond_with @collections=current_user.collections
+    @collections=
+      if uid=params[:user_id] then
+        User.find(uid)
+      else
+        current_user.collections
+      end
+    respond_with @collections
   end
   def show
     respond_with @collection=Collection.find(params[:id])
-  end
-  def add_books
-    @collection=Collection.find(params[:id])
-    Book.find(params[:book_ids]).each do |b|
-      b.collection=@collection
-      b.save
-    end
   end
 end
