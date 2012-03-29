@@ -1,0 +1,19 @@
+<h1>Private groups</h1>
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @collections.each do |collection| %>
+  <tr>
+    <td><%= collection.name %></td>
+    <td>(<%= collection.books.count %> books)</td>
+    <td><%= link_to 'Members', collection_memberships_path(collection) %></td>
+    <td><%= link_to 'Delete', collection, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>

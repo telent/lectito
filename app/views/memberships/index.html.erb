@@ -1,0 +1,14 @@
+<h1> "<%= @collection.name %>" group members</h1>
+<table>
+<% if @memberships.count.zero? then %>
+<tr><td><i>No members</i></td></tr>
+<% end %>
+<% @memberships.each do |m|  %>
+<tr>
+  <td><%= m.user.name %></td>
+  <td><%= link_to('Remove',{action: :destroy,id: m.id}, 
+	  { :confirm=> 'Remove this user?', :method=> :delete }) %>
+  </td>
+</tr>
+<% end %>
+</table>

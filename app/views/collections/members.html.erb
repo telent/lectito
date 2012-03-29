@@ -1,0 +1,9 @@
+<h1>"<%= @collection.name %>" group members</h1>
+<table>
+<% @members.each do |m| %>
+<tr>
+  <td> <%= link_to m.name,m %> </td>
+  <td><%= link_to 'Remove',{ id: @collection.id, action: :remove_member},{ confirm: 'Are you sure?', method: :post} %></td>
+</tr>
+<% end %>
+</table>

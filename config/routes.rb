@@ -1,11 +1,19 @@
 Lectito::Application.routes.draw do
 
+
   match '/auth/:service/callback' => 'sessions#create'
   match '/logout' => 'sessions#destroy'
   match '/login' => 'sessions#new'
 
-  resources :users,:stories,:shelves,:collections
-  
+  resources :users do
+    resources :collections
+  end
+  resources :collections do
+    resources :memberships
+  end
+
+  resources :stories, :shelves
+    
   resources :books do
     member do
       post :shelf
