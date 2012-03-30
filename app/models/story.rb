@@ -51,6 +51,14 @@ class Story < ActiveRecord::Base
       self.save
     end
   end
+
+  class Follow
+    def finish
+      e=@events[0]
+      self.story="#{e.name} is now following you"
+      self.save
+    end
+  end
   
   class Read;end
   class Request;end

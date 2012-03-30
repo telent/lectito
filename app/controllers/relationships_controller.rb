@@ -10,7 +10,7 @@ class RelationshipsController < ApplicationController
     redirect_to action: :index
   end
   def create
-    Relationship.create(:follower=>current_user, :followed=>User.find(params[:id]))
+    Relationship.follow(:follower=>current_user, :followed=>User.find(params[:id]))
     redirect_to action: :index
   end
 end
