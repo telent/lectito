@@ -10,7 +10,15 @@
 
 <dt>Email</dt>
 <dd>  <%= @user.nickname %></dd>
+
+<dt>Followers</dt>
+<dd>  <%= link_to "#{@user.followers.count} users", user_relationships_path(@user)+"#followers" %></dd>
+
+<dt>Following</dt>
+<dd>  <%= link_to "#{@user.following.count} users", user_relationships_path(@user)+"#following" %></dd>
+
 </dl>
+
 
 <br clear=both>
 <%= link_to 'Edit', edit_user_path(@user) %> |

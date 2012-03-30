@@ -1,4 +1,4 @@
-<h1> <%= @user.name %> follows</h1>
+<h1><a name="#following"><%= @user.name %> follows</a></h1>
 <table>
 <% if @following.count.zero? then %>
 <tr><td><i>Nobody</i></td></tr>
@@ -13,7 +13,7 @@
 </tr>
 <% end %>
 </table>
-<h1> <%= @user.name %> is followed by</h1>
+<h1><a name="#followers"><%= @user.name %> is followed by</a></h1>
 <table>
 <% if @followers.count.zero? then %>
 <tr><td><i>Nobody</i></td></tr>
