@@ -1,0 +1,10 @@
+<%= case 
+when current_user == user then
+#
+when r=current_user.following?(user) then 
+   link_to("Following",{action: :destroy, id: r.id }, {
+    :confirm=>"Stop following this user?", :method=> :delete }) 
+else
+   link_to("Follow",{action: :create, id: user.id }, { :method=> :post }) 
+end 
+%>

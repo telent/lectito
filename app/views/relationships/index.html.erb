@@ -7,8 +7,8 @@
 <tr>
   <td><%= f.followed.name %></td>
   <td><%= f.followed.created_at.strftime("%F %R") %></td>
-  <td><%= link_to('Unfollow',{action: :destroy, id: f.id}, 
-	  { :method=> :delete }) %>
+  <td><%= render partial: "shared/follow_button", locals: { :user=>f.followed }
+    %></td>
   </td>
 </tr>
 <% end %>
@@ -24,13 +24,10 @@
   <td><%= link_to('Block',{action: :block, id: f.id}, 
 	  { :confirm=> 'Block this user?', :method=> :delete }) %>
   </td>
+  <td><%= render partial: "shared/follow_button", locals: { :user=>f.follower }
+    %></td>
 </tr>
 <% end %>
 </table>
 
-<%= if r=current_user.following?(@user) then 
-   link_to("Unfollow",{action: :destroy, id: r.id }, { :method=> :delete }) 
-else
-   link_to("Follow",{action: :create, id: @user.id }, { :method=> :post }) 
-end 
-%>
+<%= render partial: "shared/follow_button", locals: { :user=>@user } %>
