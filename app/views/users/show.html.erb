@@ -22,7 +22,8 @@
 
 <br clear=both>
 <%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', user_path %> |
+<%= render partial: "shared/follow_button",  { :user=>@user }
+    %>
 
 </div>
 
