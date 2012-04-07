@@ -5,6 +5,9 @@ class UsersController < ApplicationController
   def index
     respond_with @users=current_user.friends
   end
+  def friends
+    respond_with @users=current_user.friends
+  end
   def edit
   end
   def show

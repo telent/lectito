@@ -8,6 +8,9 @@ Lectito::Application.routes.draw do
   resources :users do
     resources :collections
     resources :relationships
+    member do
+      get :friends
+    end
   end
   resources :collections do
     resources :memberships
