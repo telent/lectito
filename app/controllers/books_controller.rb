@@ -98,6 +98,7 @@ class BooksController < ApplicationController
   end
 
   def show
+    check_authorized { current_user }
     @book=Book.find(params[:id])
     respond_to do |format|
       format.html 
