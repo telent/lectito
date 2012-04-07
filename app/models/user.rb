@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  has_many :stories,:order=>"created_at desc"
   has_many :authorizations
   has_many :shelves,:order=>"name"
   has_many :collections
@@ -32,6 +31,29 @@ class User < ActiveRecord::Base
 
   def name
     "#{nickname} (#{fullname})"
+  end
+  
+  def stories
+    s=[]
+    story=Story.new
+    events=Event.where("actor_id=? or recipient_id=?",self.id,self.id)
+    if events then
+      story.created_at=events[0].created_at
+      events.each do |e|
+        if story.accepts_event? e
+          story.add_event e
+        else
+          story.finish
+          s << story
+          story=Story.new
+          story.add_event e
+          story.created_at=e.created_at
+        end
+      end
+      story.finish
+      s << story
+    end
+    s
   end
 
   def all_books

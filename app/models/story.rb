@@ -1,9 +1,16 @@
 class Story < ActiveRecord::Base
-  belongs_to :user
-  attr_accessor :events
+#  belongs_to :user
+  attr_accessor :events,:created_at
 
   def image
     nil
+  end
+
+  def save; true; end
+
+  def initialize(*args)
+    @events||=[]
+    super
   end
   
   def add_event e
@@ -59,10 +66,18 @@ class Story < ActiveRecord::Base
       self.save
     end
   end
+
+  class Message
+    def finish
+      e=@events[0]
+      self.story=e.story
+      self.save
+    end
+  end      
   
   class Read;end
   class Request;end
   class Lend;end
   class Return;end
-  
+
 end
