@@ -33,15 +33,26 @@
 <br clear=both>
 <%= link_to 'Edit', edit_book_path(@book) %> |
 <%= link_to 'Back', books_path %> |
-
-<%= if @book.on_loan? then
-    button_to 'Return',action: :return, method: :post
-    end 
-%>
-
-<% if not @book.on_loan? then %>
-    <input type=button id=lend value="Lend" />
+<% if @book.on_loan? then %>
+<%=  button_to 'Return',action: :return, method: :post %>
+<% else %>
+<input type=button id=lend value="Lend" /> 
 <% end %>
+
+<script>
+  var current_user=new Lectito.Models.User();
+  current_user.set(<%= @current_user.to_json.html_safe %>);
+  $('#lend').click(function(e) {
+  friend_popup(current_user,function(user,el) {
+    $.post(<%= ("/books/#{@book.id}/lend").inspect.html_safe %>,
+           {"borrower_id": user.id},
+           function() { window.location.reload(true)},
+           "json")
+  
+  })
+});
+</script>
+
 
 </div>
 

@@ -1,0 +1,35 @@
+#friend_popup {
+    display: none;
+    .scroller {
+	max-height: 300px;
+	overflow-y: scroll;
+    }
+    img {
+	clear: both;
+	float: left;
+	margin-right: 6px;
+
+	max-width: 35px;
+	border: #ddd 1px;
+    }
+    div.line {
+	font-size: 90%;
+	 clear: both;
+	 border: 1px 0 0 1px;
+	 border-color: grey;
+	 background-color: #f8f8ff;
+	 div.nick {
+	     margin-top: 2px;
+	     font-weight:bold;
+	     font-size: 13px;
+	 }
+	 div.full {
+	     margin-left: 6px;
+	     font-size: 12px;
+	 }
+    }
+    div.line:hover {
+	 background-color: #dde;
+    }
+}
+
