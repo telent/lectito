@@ -87,14 +87,20 @@ class BooksController < ApplicationController
     book=Book.find(params[:id])
     check_authorized { book.owner == current_user }
     book.lend(User.find(params[:borrower_id]))
-    redirect_to :action=>:show
+    respond_to do |format|
+      format.html { redirect_to :action=>:show}
+      format.json { render json: book }
+    end
   end
 
   def return
     book=Book.find(params[:id])
     check_authorized { book.owner == current_user }
     book.return
-    redirect_to :action=>:show
+    respond_to do |format|
+      format.html { redirect_to :action=>:show}
+      format.json { render json: book }
+    end
   end
 
   def show
