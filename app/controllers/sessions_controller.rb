@@ -7,9 +7,17 @@ class SessionsController < ApplicationController
     warn [:a,a]
     u=a.user
     warn [:u,u]
+    c=auth["credentials"]
+    if c && t=c["token"] then
+      a.token=t
+    end
+    if c && t=c["secret"] then
+      a.secret=t
+    end
     if u then
       session[:user_id]=u.id
-      redirect_to "/"
+      a.save
+      redirect_to stories_path
     else
       begin
         i=auth["info"]
