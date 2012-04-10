@@ -1,3 +1,9 @@
+/* to do
+ * 2) load only 20 results
+ * 3) load subsequent results on scroll event when scrolled to bottom
+ * 4) backend support for querying all users and favouring friends
+*/
+
 FriendPopup= (function(fp) {
     return _.extend(fp,{
 	RowView: Backbone.View.extend({
@@ -18,28 +24,56 @@ FriendPopup= (function(fp) {
 		return this;
 	    }
 	}),
+	SearchBox: Backbone.Model.extend({}),
+	SearchView: Backbone.View.extend({
+	    tagName: "input",
+	    attributes: {type: "text", size: 10, placeholder: "Find user"},
+	    events: { "keyup": "do_input" },
+	    initialize: function() {
+		this.render();
+		this.model.bind("change",this.render,this);
+	    },
+	    do_input: function(e) {
+		this.model.set({term: this.$el.val()})
+	    },
+	    render: function() {
+		this.$el.val(this.model.get("term"));
+		return this;
+	    },
+	}),
 	RowsView: Backbone.View.extend({
 	    id: "friend_popup",
 	    events: {
-		"click .line": "do_click"
+		"click .line": "do_click",
 	    },
 	    do_click: function(e) {
 		var m=$(e.currentTarget).data('model');
-		console.log(m);
 		this.options.callback(m,this.el);
 	    },
+	    do_filter: function () {
+		var term=this.search.get('term');
+		if(term.length>1) {
+		    this.collection.fetch({
+			url: "/users/1/friends?term="+term+"&limit=21"
+		    });
+		}
+	    },
 	    initialize: function() {
-		this.collection.bind("change",this.render,this);
-		var o=this.options;
-		this.views=this.collection.map(function (m) {
-		    return new fp.RowView({model: m, callback: o.callback})
-		});
-		this.$el.html("<p><!-- this bit does not scroll --></p><div class=scroller></div>");
-		this.$('.scroller').append(this.views.map(function(v){ return v.el}));
+		this.search=new fp.SearchBox({term: ""});
+		this.search.bind("change",this.do_filter,this);
+		this.collection.bind("reset",this.render,this);
+		this.searchview=new fp.SearchView({model: this.search});
+		this.$el.html("<div class=static></div><div class=scroller></div>");
+		this.$('.static').append(this.searchview.render().el);
 		this.render();
 	    },
 	    views: [],
 	    render: function(){
+		var o=this.options;
+		this.views=this.collection.map(function (m) {
+		    return new fp.RowView({model: m, callback: o.callback})
+		});
+		this.$('.scroller').empty().append(this.views.map(function(v){ return v.el}));
 		this.views.map(function(v){ v.render() });
 		return this;
 	    }
@@ -48,17 +82,13 @@ FriendPopup= (function(fp) {
 })({});
 
 function do_friend_popup(user,coll,callback) {
-    // need a friend view and a friends view which subscribe to 
-    // events on the collection "coll"
-
-    /* el is the element to which we will add the popup body.  
-     * The popup body is initially hidden; after we've created it
-     * we call jquery dialog() on it
-     */
-    var rvs=new FriendPopup.RowsView({ collection: coll, callback: callback });
+    var rvs=new FriendPopup.RowsView({ 
+	collection: coll, 
+	callback: callback
+    });
     $('article').append(rvs.el);
     rvs.$el.dialog({autoOpen: false,width: 400,
-		    title: 'Choose someone to lend to'});
+		    title: 'Lend this book to'});
     rvs.$el.dialog('open');
 
 }

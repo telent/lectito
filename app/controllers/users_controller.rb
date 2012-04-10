@@ -6,8 +6,15 @@ class UsersController < ApplicationController
     respond_with @users=current_user.friends
   end
   def friends
-    respond_with @users=current_user.friends
+    @users=current_user.friends
+    respond_with @users=
+      if t=params[:term] then
+        @users.find_all {|u| u.name.match Regexp.new(t,Regexp::IGNORECASE) }
+      else
+        @users
+      end
   end
+
   def edit
   end
   def show
