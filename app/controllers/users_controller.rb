@@ -6,17 +6,23 @@ class UsersController < ApplicationController
     respond_with @users=current_user.friends
   end
   def friends
-    @users=current_user.friends
-    respond_with @users=
+    u=current_user.friends
+    from=params[:from].to_i 
+    to=params[:to].to_i 
+    u=
       if t=params[:term] then
-        @users.find_all {|u| u.name.match Regexp.new(t,Regexp::IGNORECASE) }
+        u.find_all {|u| u.name.match Regexp.new(t,Regexp::IGNORECASE) }
       else
-        @users
+        u
       end
+    # upper bound is exclusive not inclusive
+    to=if to.zero? then to.count else to-1 end
+    respond_with @users=u[from..to]
   end
 
   def edit
   end
+
   def show
     respond_with @user=User.find(params[:id])
   end
