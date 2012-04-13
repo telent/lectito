@@ -55,6 +55,7 @@ FriendPopup= (function(fp) {
 		this.loading=true;
 		var opt = {add: true,
 			   url: url,			   
+			   silent: true,
 			   success: function(coll,resp) {
 			       this.loading=false;
 			       if(coll.length===expected) {
@@ -64,6 +65,7 @@ FriendPopup= (function(fp) {
 				   coll.on_show=coll.length;
 				   coll.incomplete=false;
 			       }
+			       coll.trigger('add');
 			   },
 			   data: {'from': this.length, 'to': expected }
 			  };
@@ -101,10 +103,13 @@ FriendPopup= (function(fp) {
 	    render: function(){
 		var o=this.options;
 		this.views=this.collection.map(function (m) {
-		    return new fp.RowView({model: m, callback: o.callback})
+		    var v=new fp.RowView({model: m, callback: o.callback});
+		    return v.render();
 		});
-		this.$('.scroller').empty().append(this.views.map(function(v){ return v.el}));
-		this.views.map(function(v){ v.render() });
+		this.$('.scroller').empty().append(this.views.map(function(v){
+		    return v.el
+		}));
+
 		if(this.collection.incomplete) {
 		    this.views.pop();
 		    this.$('.scroller').append("<div class=more>Fetch more results</div>")
