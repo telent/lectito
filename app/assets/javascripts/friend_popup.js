@@ -8,6 +8,7 @@ FriendPopup= (function(fp) {
     return _.extend(fp,{
 	RowView: Backbone.View.extend({
 	    className: 'line',
+	    attributes: {tabindex: 0},	    
 	    initialize: function() {
 		this.model.bind("change",this.render,this);
 		this.render();
@@ -86,14 +87,17 @@ FriendPopup= (function(fp) {
 	    id: "friend_popup",
 	    events: {
 		"click .line": "do_click",
+		"keyup .line": "do_click",
 	    },
 	    do_click: function(e) {
+		if(e.type=='keyup' && e.keyCode!=13) {
+		    return;
+		} 
 		var m=$(e.currentTarget).data('model');
 		this.options.callback(m,this.el);
 	    },
 	    do_filter: function () {
 		var term=this.search.get('term');
-		// when the term changes, we reset the offset to 0
 		if(term.length>1) {
 		    this.collection.term=term;
 		    this.collection.fetch_first();
