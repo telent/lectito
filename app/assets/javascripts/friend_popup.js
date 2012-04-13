@@ -89,6 +89,11 @@ FriendPopup= (function(fp) {
 		"click .line": "do_click",
 		"keyup .line": "do_click",
 	    },
+	    do_scroll: function(e) {
+		var y=this.$('.scroller .more').position().top-this.$('.scroller').position().top;
+		var h=this.$('.scroller').height();
+		if(y<h) this.collection.fetch_more();
+	    },
 	    do_click: function(e) {
 		if(e.type=='keyup' && e.keyCode!=13) {
 		    return;
@@ -113,6 +118,7 @@ FriendPopup= (function(fp) {
 		this.searchview=new fp.SearchView({model: this.search});
 		this.$el.html("<div class=static></div><div class=scroller></div>");
 		this.$('.static').append(this.searchview.render().el);
+		this.$('.scroller').bind("scroll",$.proxy(this.do_scroll,this));
 		this.render();
 	    },
 	    views: [],
