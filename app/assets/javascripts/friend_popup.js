@@ -49,6 +49,13 @@ FriendPopup= (function(fp) {
 	    incomplete: true,
 	    on_show: 0,
 	    loading: false,
+	    term: null,
+
+	    fetch_first: function() {
+		this.reset([],{silent: true});
+		this.on_show=0;
+		this.fetch_more();
+	    },
 	    fetch_more: function() {
 		var url='/users/'+this.user.id+'/friends';
 		var expected=this.on_show+this.batchsize+1;
@@ -67,8 +74,11 @@ FriendPopup= (function(fp) {
 			       }
 			       coll.trigger('add');
 			   },
-			   data: {'from': this.length, 'to': expected }
+			   data: {'from': this.length, 'to': expected}
 			  };
+		if(this.term) 
+		    opt.data['term']= this.term;
+
 		return this.fetch(opt);
 	    }
 	}),
@@ -85,9 +95,11 @@ FriendPopup= (function(fp) {
 		var term=this.search.get('term');
 		// when the term changes, we reset the offset to 0
 		if(term.length>1) {
-		    this.collection.fetch({
-			url: "/users/1/friends?term="+term+"&limit=21"
-		    });
+		    this.collection.term=term;
+		    this.collection.fetch_first();
+		} else {
+		    this.collection.term=null;
+		    this.collection.fetch_first();
 		}
 	    },
 	    initialize: function() {
