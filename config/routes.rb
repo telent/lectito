@@ -1,6 +1,8 @@
 Lectito::Application.routes.draw do
 
 
+  match '/'=> "splash#index"
+
   match '/auth/:service/callback' => 'sessions#create'
   match '/logout' => 'sessions#destroy'
   match '/login' => 'sessions#new'

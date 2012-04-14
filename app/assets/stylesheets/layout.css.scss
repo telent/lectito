@@ -94,6 +94,12 @@ article {
     font-size: 11pt;
     margin: 1em;
     color: #444;
+
+    ul {
+	li {
+	    list-style-type: disc;
+	}
+    }
 }
 
 footer {
