@@ -32,6 +32,10 @@ class User < ActiveRecord::Base
   def name
     "#{nickname} (#{fullname})"
   end
+
+  def welcome!
+    Event.publish(:actor=>self,:action=>:join)
+  end
   
   def stories
     s=[]

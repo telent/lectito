@@ -38,7 +38,7 @@ class Story < ActiveRecord::Base
   class Join
     def finish
       e=@events[0]
-      self.story="#{e.name} joined the community"
+      self.story="Welcome #{e.name} to the booksh.lv community.  Now you can set up your profile, start adding your books and collections, and browse books that your friends have added"
       self.save
     end
   end
