@@ -1,8 +1,0 @@
-@import "colors";
-
-.blocklink {
-    @include pale-blue-background;
-}
-.blocklink[data-url]:hover {
-    @include pale-blue-background-hover;
-}
