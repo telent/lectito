@@ -30,6 +30,7 @@ class SessionsController < ApplicationController
         a.user=u
         a.save
         session[:user_id]=u.id
+        u.welcome!
         redirect_to stories_path
       rescue Exception => e
         warn [:except,e]
