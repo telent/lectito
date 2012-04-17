@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= [@page_title,
+"booksh.lv",
+case Rails.env when "development" then "(dev)" else nil end
+ ].compact.join(" - ") %></title>
+  <link href='http://fonts.googleapis.com/css?family=Righteous'
+        rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Terminal+Dosis:400,600' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Varela+Round&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body data-controller="<%= controller.controller_name %>"
+  data-action="<%= controller.action_name %>" >
+<header>
+<div id="logo">
+  <a href="/">booksh&#8226;lv</a>
+</div>
+<div id="search">
+  <form name=search method=get action=<%= books_url %> >
+    <input name="term" placeholder="Find book, author, person" type="text"> 
+  </form>
+</div>
+<div id="tagline">"libros non legendos sed lectitandos"
+  <div id="translated">"Books must not be read but read eagerly" - Plin. Ep. 2, 17, 8:</div></div>
+<div id="session">
+<ul>
+  <% if u=current_user then %>
+  <li><%= link_to("#{u.nickname}",u) %> </li>
+  
+  <li><%= link_to("sign out","/logout") %></li>
+  <% else %>
+  <li><%= link_to("sign in",'/')   %></li>
+  <% end %>
+</ul>
+</div>
+</header>
+<article>
+<%= render :partial=>"partials/flash",:object => flash  %>
+<%= yield %>
+</article>
+<footer>
+<div class="divider" clear="both"> </div>
+Site Copyright &copy;2012 Daniel Barlow.  All user-generated content is
+owned by the user who generated it
+</footer>
+</body>
