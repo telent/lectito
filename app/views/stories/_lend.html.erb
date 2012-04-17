@@ -1,4 +1,4 @@
-<% story=lend;books=BookDecorator.decorate(lend.books).to_ary %>
+<% books=BookDecorator.decorate(story.books).to_ary %>
 <div class="story">
   <div class=dateline><%= l(story.created_at) %></div>
 <%= link_to story.recipient.name,story.recipient %> borrowed 
