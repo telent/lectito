@@ -26,5 +26,9 @@ class UsersController < ApplicationController
   def show
     respond_with @user=User.find(params[:id])
   end
+  def breadcrumb
+    @breadcrumbs=[["profile",current_user]]
+  end
+
 end
 

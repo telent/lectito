@@ -13,4 +13,7 @@ class RelationshipsController < ApplicationController
     Relationship.follow(:follower=>current_user, :followed=>User.find(params[:id]))
     redirect_to action: :index
   end
+  def breadcrumb
+    @breadcrumbs=[["friends",user_relationships_path(current_user)]]
+  end
 end

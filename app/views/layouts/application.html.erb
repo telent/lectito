@@ -37,6 +37,21 @@ case Rails.env when "development" then "(dev)" else nil end
   <% end %>
 </ul>
 </div>
+<nav>
+<ul>
+<% section=@breadcrumbs[0][1]
+   warn section
+   [["news",stories_path],
+   ["browse",editions_path],
+   ["library", books_path],
+   ["friends", user_relationships_path(current_user)], 
+   ["profile",current_user]].each do |text,target| %>
+<li <%= if target==section then 'class="selected"'.html_safe end %> >
+  <%= link_to text,target %>
+</li>
+<% end %>
+</ul>
+</nav>
 </header>
 <article>
 <%= render :partial=>"partials/flash",:object => flash  %>

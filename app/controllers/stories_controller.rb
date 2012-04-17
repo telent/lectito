@@ -6,4 +6,7 @@ class StoriesController < ApplicationController
       limit(page_size).offset(@page*page_size)
     @stories=Story.for_events events
   end
+  def breadcrumb
+    @breadcrumbs=[["news",stories_path]]
+  end
 end

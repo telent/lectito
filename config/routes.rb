@@ -19,7 +19,7 @@ Lectito::Application.routes.draw do
     resources :memberships
   end
 
-  resources :stories, :shelves
+  resources :stories, :shelves,:editions
     
   resources :books do
     member do

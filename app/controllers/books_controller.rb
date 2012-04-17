@@ -143,4 +143,8 @@ class BooksController < ApplicationController
       render action: :new
     end
   end
+
+  def breadcrumb
+    @breadcrumbs=[["library",books_path]]
+  end
 end

@@ -2,6 +2,7 @@ require 'active_resource/exceptions'
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  before_filter :breadcrumb
 
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
@@ -21,6 +22,10 @@ class ApplicationController < ActionController::Base
       format.json { render json: val }
     end
   end
-  
+
+  private
+  def breadcrumb
+    @breadcrumbs ||= [["",""]]
+  end
 
 end
