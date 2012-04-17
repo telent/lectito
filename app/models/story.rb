@@ -1,18 +1,46 @@
-class Story < ActiveRecord::Base
-#  belongs_to :user
+class Story 
+  def self.for_events events
+    story=nil
+    s=[]
+    if events then
+      events.each do |e|
+        if story && story.accepts_event?(e) then
+          story.add_event e
+        else
+          if story then 
+            s << story
+          end
+          story=Story.new
+          story.add_event e
+          story.created_at=e.created_at
+        end
+      end
+      s << story
+    end
+    s
+  end
+
   attr_accessor :events,:created_at
 
   def image
     nil
   end
 
-  def save; true; end
-
   def initialize(*args)
     @events||=[]
     super
   end
   
+  def books 
+    @events.map(&:book).uniq
+  end
+  
+  [:action,:actor,:recipient].each do |m|
+    define_method m do
+      @events[0].send(m)
+    end
+  end
+
   def add_event e
     @events << e
   end
@@ -23,61 +51,18 @@ class Story < ActiveRecord::Base
       [:actor_id,:action,:recipient_id].map {|k| e.send(k)==ev.send(k)}.all?
     end
   end
-  
-  def self.list_books_truncated(events)
-    c=events.count
-    examples=events[0..3]
+  def to_partial_path
+    self.action.to_s
+  end
+
+  def book_names_truncated
+    c=self.books.count
+    examples=self.books[0..3]
     if c<=examples.count then
-      examples.map {|b| "[#{b.id}]" }.to_sentence
+      examples.map {|b| "#{b.title} by #{b.author}" }.to_sentence
     else
-      names=examples.map {|b| "[#{b.id}]" }.join(", ")
+      names=examples.map {|b| "#{b.title} by #{b.author}"  }.join(", ")
       "#{names} and #{c-examples.count} other books"
     end
   end
-
-  class Join
-    def finish
-      e=@events[0]
-      self.story="Welcome #{e.name} to the booksh.lv community.  Now you can set up your profile, start adding your books and collections, and browse books that your friends have added"
-      self.save
-    end
-  end
-  
-  class New
-    def finish
-      e=@events[0]
-      self.story="#{e.name} added #{list_books_truncated(@events)} to their library"
-      self.save
-    end
-  end
-  
-  class Review
-    def finish
-      e=@events[0]
-      self.story="#{e.name} added #{list_books_truncated(@events)} to their library"
-      self.save
-    end
-  end
-
-  class Follow
-    def finish
-      e=@events[0]
-      self.story="#{e.name} is now following you"
-      self.save
-    end
-  end
-
-  class Message
-    def finish
-      e=@events[0]
-      self.story=e.story
-      self.save
-    end
-  end      
-  
-  class Read;end
-  class Request;end
-  class Lend;end
-  class Return;end
-
 end

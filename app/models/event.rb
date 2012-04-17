@@ -24,9 +24,6 @@ class Event < ActiveRecord::Base
     @@subscribers.delete(callable)
   end
 
-  validates_each :action do |r,a,v|
-    Story.const_defined?(v.capitalize) or r.errors.add a,'Unrecognised action'
-  end
   def action=(act)
     write_attribute(:action,act.to_s)
   end

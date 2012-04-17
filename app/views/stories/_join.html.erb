@@ -1,0 +1,11 @@
+<% story=join %>
+<div class="story">
+  <div class=dateline><%= l(story.created_at) %></div>
+Welcome <%= story.actor.name %> to the  booksh.lv community!  Now you
+can 
+<%= link_to "set up your profile",story.actor %>, 
+<%= link_to "start adding your books and collections",Book %>,  and 
+<%= link_to "browse books", Edition %> that your 
+<br clear=both>
+</div>
+

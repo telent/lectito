@@ -37,27 +37,8 @@ class User < ActiveRecord::Base
     Event.publish(:actor=>self,:action=>:join)
   end
   
-  def stories
-    s=[]
-    story=Story.new
-    events=Event.where("actor_id=? or recipient_id=?",self.id,self.id)
-    if events then
-      story.created_at=events[0].created_at
-      events.each do |e|
-        if story.accepts_event? e
-          story.add_event e
-        else
-          story.finish
-          s << story
-          story=Story.new
-          story.add_event e
-          story.created_at=e.created_at
-        end
-      end
-      story.finish
-      s << story
-    end
-    s
+  def events
+    Event.where("actor_id=? or recipient_id=?",self.id,self.id)
   end
 
   def all_books
