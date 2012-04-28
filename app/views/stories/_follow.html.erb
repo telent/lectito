@@ -1,7 +1,7 @@
 <div class="story">
   <div class=dateline><%= l(story.created_at) %></div>
-<%= link_to story.actor.name,story.actor %> is now following
-<%= link_to story.recipient.name,story.recipient %> 
+<%= link_to story.actor.name_or_subject_pronoun,story.actor %> is now following
+<%= link_to story.recipient.name_or_object_pronoun,story.recipient %> 
 <br clear=both>
 </div>
 
