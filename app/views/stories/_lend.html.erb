@@ -1,9 +1,9 @@
 <% books=BookDecorator.decorate(story.books).to_ary %>
 <div class="story">
   <div class=dateline><%= l(story.created_at) %></div>
-<%= link_to story.recipient.name,story.recipient %> borrowed 
+<%= link_to story.actor.name_or_subject_pronoun(:capitalize),story.actor%> 
+lent
 <%= link_to books[0].title_and_author, books[0] %>
-from <%= link_to story.actor.name,story.actor%> 
-<br clear=both>
+to
+<%= link_to story.recipient.name,story.recipient %> 
 </div>
-
