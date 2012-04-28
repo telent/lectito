@@ -11,6 +11,13 @@ var tag_data=<%= @current_user.tagnames.to_json.html_safe %>;
 
 <div id=book_manager>
   <div id=leftbar>
+    <button>Add book
+    </button>
+    <script>
+      $(document).ready(function() { $("#leftbar button").click(function()
+      {document.location=<%= url_for new_book_path.inspect.html_safe
+      %>}) })
+    </script>
     <div id=shelves>
       <span>Shelves</span>
       <!-- backbone view goes here -->
