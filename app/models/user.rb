@@ -38,8 +38,33 @@ class User < ActiveRecord::Base
   end
   
   def events
-    Event.where("actor_id=? or recipient_id=?",self.id,self.id)
+    Event.where("actor_id=? or recipient_id=?",self.id,self.id).order("created_at desc")
   end
+
+  def stories(limit=20,offset=0)
+    story=Story.new
+    Enumerator.new do |y|
+      self.events.order('created_at desc').find_batched do |e|
+        if story.accepts_event? e then
+          story.created_at ||= e.created_at
+          story.add_event e
+        else
+          if offset.zero?
+            y << story
+            limit-=1
+          else
+            offset-=1
+          end
+          break if limit.zero?
+          story=Story.new
+          story.add_event e
+          story.created_at=e.created_at
+        end
+      end
+      y << story
+    end
+  end
+
 
   def all_books
     books + borrowed_books

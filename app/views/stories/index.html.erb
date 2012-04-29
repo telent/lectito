@@ -1,3 +1,11 @@
 <h1>Recently</h1>
 <%= render :partial => @stories, as: :story %>
+<div class=pagination>
+<% if @next then %>
+<%= link_to "Older >", @next %>
+<% end  %>
+<% if @prev then %>
+<%= link_to "< Newer", @prev %>
+<% end  %>
+</div>
 
