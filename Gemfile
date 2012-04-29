@@ -30,7 +30,6 @@ gem 'omniauth', '>= 1.0'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-twitter'
-gem 'will_paginate'
 gem 'rails-backbone'
 gem 'draper'
 
@@ -48,5 +47,6 @@ gem 'draper'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
-
 gem 'pry'
+gem 'pry-doc'
+
