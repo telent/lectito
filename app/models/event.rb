@@ -3,6 +3,11 @@ class Event < ActiveRecord::Base
   belongs_to :book
   belongs_to :recipient,:class_name=>"User"
 
+  # this is a class variable, meaning that anyone listening to a 
+  # subclass will get notifications pertaining to parent class
+  # instances as well.  As I haven't yet figured out why you would
+  # want to subclass Event, I can't say ifthis is a good idea or not
+
   @@subscribers = []
 
   # create a new event and notify all event subscribers
