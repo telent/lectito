@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/telent/ar-as-batches.git
+  revision: 2e9ae086e573923926e9fdfad05783bcc8cf0406
+  specs:
+    ar-as-batches (0.0.1)
+      activerecord
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -153,6 +160,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ar-as-batches!
   coffee-rails (~> 3.2.1)
   draper
   jquery-rails

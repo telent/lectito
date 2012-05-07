@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
   def stories(limit=20,offset=0)
     story=Story.new
     Enumerator.new do |y|
-      self.events.order('created_at desc').find_batched do |e|
+      self.events.order('created_at desc').as_batches do |e|
         if story.accepts_event? e then
           story.created_at ||= e.created_at
           story.add_event e
