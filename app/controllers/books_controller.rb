@@ -5,6 +5,11 @@ class BooksController < ApplicationController
     when :title,:author,:publisher,:isbn
     then
       books=books.order(s.to_s)
+    when :location
+      # this is a PITA
+      # if book is at home, sort by name of shelf
+      # if book is lent, sort by name of borrower
+      books=books # XXX fix this
     else
       books=books.order(:created_at)
     end

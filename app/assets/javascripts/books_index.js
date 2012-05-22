@@ -319,6 +319,14 @@ jQuery(document).ready(function() {
 	$('.collection',act).append(changeCollectionView.render().el);
 	$('.tags',act).append(addTagView.render().el);
 	debugv=booksView;
+	$('tr.header').live("click","th",function(e) {
+	    var order=$(e.target).data('sort');
+	    $('th',this).removeClass('selected');
+	    $(e.target).addClass('selected');
+	    Store.books.sort_by(order);
+	    return false;
+	});
+	    
 	$('#mark').change(function(e) {
 	    var v=e.target.value;
 	    if(v=='all') 

@@ -61,9 +61,9 @@ var tag_data=<%= @current_user.tagnames.to_json.html_safe %>;
     <thead>
       <tr class=header>
 	<th> </th>
-	<th>Location</th>
-	<th>Book</th>
-	<th>Added</th>
+	<th data-sort=location>Location</th>
+	<th data-sort=author>Book</th>
+	<th data-sort=created_at> Added</th>
       </tr>
     </thead>
   </table>

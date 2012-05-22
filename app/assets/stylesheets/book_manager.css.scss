@@ -52,6 +52,12 @@ div#book_manager {
 	col.book {
 	    width: 25em;
 	}
+	th[data-sort] {
+	    cursor: pointer;
+	}	    
+	th[data-sort].selected {
+	    color: red;
+	}	    
     }    
     th#check select#mark  {
 	width: 40px;
