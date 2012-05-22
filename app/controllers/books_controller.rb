@@ -13,6 +13,7 @@ class BooksController < ApplicationController
     end
     books
   end
+  private :books_for_params
 
   def index
     check_authorized { current_user }
