@@ -16,7 +16,6 @@ Lectito.Views.ULView=Backbone.View.extend({
     initialize: function() {
 	this.collection.map(function(m) {m.set({selected: true})});
 	this.collection.bind("all",this.render,this);
-	if(!this.options.where) this.options.where=_.identity;
 	this.render();
     },
     events: {
@@ -36,7 +35,7 @@ Lectito.Views.ULView=Backbone.View.extend({
     render: function() {
 	var ul=$(this.el);
 	ul.html("");
-	_.each(this.li_for_collection(this.collection.filter(this.options.where)),
+	_.each(this.li_for_collection(this.collection),
 	       function(ael){
 		   ul.append(ael);
 	       });
@@ -135,7 +134,7 @@ Lectito.Views.BookView=Backbone.View.extend({
 		this.$('input').attr("checked",m.get('selected'));
 		return this;
 	    } else if(v) {
-		// console.log("changed",_.keys(v));
+		// nothing // console.log("changed",_.keys(v));
 	    } else {
 		// not the first time and nothing changed: skip the repaint
 		return this;
@@ -194,40 +193,26 @@ Lectito.Views.BooksView=Backbone.View.extend({
 	}
     },
     initialize: function() {
-	this.collection.bind("all",this.render,this);
 	Store.shelves.bind("change",this.render,this);
+	this.collection.bind("reset",this.handle_reset,this);
 	Store.collections.bind("change",this.render,this);
 	Store.tagnames.bind("change:selected",this.render,this);
-	this.$el.empty();
-	var dad=this;
-	this.collection.each(function(m) {
-	    var view=new Lectito.Views.BookView({model: m});
-	    dad.bookViews[m.id]=view;
-	});
-	this.$el.append(_.values(this.bookViews).
-			map(function(v) {return v.el}));
 	return this;
     },
-    where: function(row) {
-	var col=row.book_collection();
-	var hs=row.home_shelf();
-	var cs=row.current_shelf();
-	var selected_tag_names=_(Store.tagnames.filter(function(t) {return t.get('selected');})).pluck('id')
-	var ret= col && col.get('selected') &&
-	    ((hs && hs.get('selected')) || (cs && cs.get('selected'))) &&
-	    _.intersect(row.get('tag_names'),selected_tag_names).length;
-	return ret;
-    },
-    render: function() {
+    handle_reset: function() {
+	this.$el.empty();
 	var dad=this;
-	_(this.collection.filter(this.where)).each(function(m) {
-	    var v=dad.bookViews[m.id];
-	    v.render();
-	    v.$el.show();
+	this.bookViews=[];
+	this.collection.each(function(m) {
+	    var view=new Lectito.Views.BookView({model: m});
+	    dad.bookViews.push(view);
 	});
-	_(this.collection.reject(this.where)).each(function(m) {
-	    var v=dad.bookViews[m.id];
-	    v.$el.hide();
+	this.$el.append(this.bookViews.map(function(v) {return v.el}));
+	this.render(true);
+    },
+    render: function(first_time) {
+	_(this.bookViews).each(function(v) {
+	    v.render(first_time);
 	});
 	return this;
     }
@@ -249,6 +234,7 @@ jQuery(document).ready(function() {
 	    }
 
 	});
+	
 	var shelvesView=new Lectito.Views.ULView({
 	    collection: Store.shelves,
 	    collection_name: 'shelf',
