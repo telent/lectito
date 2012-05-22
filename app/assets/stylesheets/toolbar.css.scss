@@ -1,10 +1,11 @@
 ul.toolbar {
     border: solid 1px #888 ;
     border-radius: 3px;
-    padding: 4px;
+    padding: 3px;
+    display: inline-block;
     li {
 	display: inline;
-	padding-right: 1em;
+	padding: 3px;
     }
     li.right {
 	float: right;

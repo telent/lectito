@@ -168,6 +168,7 @@ Lectito.Views.BookView=Backbone.View.extend({
 	return this;
     }
 });
+
 Lectito.Views.BooksView=Backbone.View.extend({
     tagName: 'tbody',
     bookViews: {},
@@ -218,13 +219,48 @@ Lectito.Views.BooksView=Backbone.View.extend({
     }
 });
 
+Lectito.Views.Paginator=Backbone.View.extend({
+    pageSize: 20,
+    initialize: function() {
+	this.model.bind("change",this.render,this);
+	Store.books.bind("reset",this.render,this);
+	this.model.fetch();
+        this.render();
+    },
+    events: {
+	"click a[rel=previous]" : "previous_page",
+	"click a[rel=next]" : "next_page"
+    },
+    previous_page: function(e) {
+	Store.books.previous_page();
+	return false;
+    },
+    next_page: function(e) {
+	var count=this.model.get('count');
+	if(count > Store.books.page*this.pageSize)
+  	    Store.books.next_page();
+	return false;
+    },
+    render: function() {
+	var page=Store.books.page;
+	var count=this.model.get('count');
+	var s=(page-1)*this.pageSize+1;
+	var e=s+this.pageSize-1;
+	if(e>count) e=count;
+	var range=s+"-"+e+" of "+count;
+	this.$el.html('<span name=num_results>Results '+range+
+		      ' </span> <a rel="previous" href="#">&#9664;</a>'+
+		      '<a rel="next" href="#">&#9654;</a>');
+	return this;
+    }
+});
+
 jQuery(document).ready(function() {
     if(($('body').data('controller')=='books') &&
        ($('body').data('action')=='index')) {
 	current_user = Store.users.fetchId(user_data['id']);
 	Store.shelves.reset(shelf_data);
 	Store.collections.reset(collection_data);
-	Store.books.reset(book_data);
 	Store.tagnames.reset(tag_data);
 	var collectionsView=new Lectito.Views.ULView({
 	    collection:  Store.collections,
@@ -251,6 +287,12 @@ jQuery(document).ready(function() {
 	    }
 	});
 	var booksView=new Lectito.Views.BooksView({collection:  Store.books});
+	var paginator=new Lectito.Views.Paginator({
+	    el: $('#pagination')[0],
+	    model: new Lectito.Models.BookCount()
+	});
+	Store.books.reset(book_data);
+
 	$('#collections').append(collectionsView.render().el);
 	$('#shelves').append(shelvesView.render().el);
 	$('#tags').append(tagsView.render().el);

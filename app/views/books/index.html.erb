@@ -49,6 +49,9 @@ var tag_data=<%= @current_user.tagnames.to_json.html_safe %>;
     <li class="collection" />
     <li class="tags" />
   </ul>
+
+  <div id=pagination></div>
+
   <table id=booklist class=manager style="font-size: 10pt">
     <col class="check"/>
     <col class="where"/>
