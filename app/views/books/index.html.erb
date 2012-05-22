@@ -68,8 +68,6 @@ var tag_data=<%= @current_user.tagnames.to_json.html_safe %>;
 <% end # form %>
 <br style="clear: both">
 <br />
-<p><%= will_paginate @books %></p>
-<%= link_to 'New Book', new_book_path %>
 
 <script id="booklist_row_template" type="text/x-template">
   <td class=check>
