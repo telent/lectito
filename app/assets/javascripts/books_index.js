@@ -320,10 +320,13 @@ jQuery(document).ready(function() {
 	$('.tags',act).append(addTagView.render().el);
 	debugv=booksView;
 	$('tr.header').live("click","th",function(e) {
-	    var order=$(e.target).data('sort');
-	    $('th',this).removeClass('selected');
-	    $(e.target).addClass('selected');
-	    Store.books.sort_by(order);
+	    var target=$(e.target);
+	    var order=target.data('sort');
+	    var direction=target.hasClass('ascending') ?
+		'descending' : 'ascending';
+	    $('th',this).removeClass('ascending').removeClass('descending')
+	    target.addClass(direction);
+	    Store.books.sort_by(order,direction);
 	    return false;
 	});
 	    

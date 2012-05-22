@@ -54,9 +54,15 @@ div#book_manager {
 	}
 	th[data-sort] {
 	    cursor: pointer;
+	    text-decoration: underline;
 	}	    
-	th[data-sort].selected {
-	    color: red;
+	th[data-sort].ascending:before {
+	    content: "▲"; // color: red;	    
+	    padding-right: 5px;
+	}	    
+	th[data-sort].descending:before {
+	    content: "▼"; // color: red;
+	    padding-right: 5px;
 	}	    
     }    
     th#check select#mark  {

@@ -13,7 +13,7 @@ class BooksController < ApplicationController
     else
       books=books.order(:created_at)
     end
-    if params[:direction]=='d' then
+    if /\Ad/.match(params[:direction]) then
       books=books.reverse_order
     end
     books

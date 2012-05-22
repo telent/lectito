@@ -1,6 +1,5 @@
 Lectito::Application.routes.draw do
 
-
   match '/'=> "splash#index"
   match '/subscribe'=> "splash#subscribe"
 

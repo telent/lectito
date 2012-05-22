@@ -13,17 +13,23 @@ class Lectito.Collections.BooksCollection extends Backbone.Collection
   model: Lectito.Models.Book
   url: '/books'
   page: 1
-  sort_order: 'created_at',
+  sort_order: 'created_at'
+  sort_direction: 'ascending'
   fetch_selection: ->
-    this.fetch({data: {page: @page, sort: @sort_order}})
+    this.fetch({data: {
+                page: @page,
+                sort: @sort_order,
+                direction: @sort_direction
+                }})
   next_page: ->
     @page+=1
     this.fetch_selection()
   previous_page: ->
-    if @page>1 
+    if @page>1
       @page-=1
       this.fetch_selection()
-  sort_by: (field) ->
+  sort_by: (field,direction) ->
     @sort_order=field;
+    @sort_direction=direction;
     @page=1
     this.fetch_selection()
