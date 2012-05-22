@@ -1,34 +1,41 @@
 class BooksController < ApplicationController
-  def index
-    check_authorized { current_user }
-    @books=current_user.books.joins(:edition)
-    case (p=params[:sort] and p.to_sym)
-#    when :where 
-#    then @books=@books.joins(:shelf,:collection=>:user).order("users.name,shelves.name")
-    when :title
-    then @books=@books.order("title")
-    when :author
-    then @books=@books.order("author")
-    when :publisher 
-    then @books=@books.order("publisher")
-    when :isbn 
-    then @books=@books.order("isbn")
+  def books_for_params(user,params)
+    books=user.books.joins(:edition)
+    case (s=params[:sort] and s.to_sym)
+    when :title,:author,:publisher,:isbn
+    then
+      books=books.order(s.to_s)
     else
-      @books=@books.order(:created_at)
+      books=books.order(:created_at)
     end
     if params[:direction]=='d' then
-      @books=@books.reverse_order
+      books=books.reverse_order
     end
-    @books=@books.paginate page: params[:page], per_page: 20
+    books
+  end
+
+  def index
+    check_authorized { current_user }
+    @books=books_for_params(current_user,params)
+    p=Integer(params[:page] || 1)
+    @books=@books.offset((p-1)*20).limit(21) 
     @shelves=current_user.shelves.sort_by(&:name)
     @collections=current_user.collections.sort_by(&:name)
-    
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @books }
+      format.json { render json: @books.to_json(include: :edition) }
     end
-
   end
+
+  def count
+    check_authorized { current_user }
+    num=books_for_params(current_user,params).count
+    respond_to do |format|
+      format.html
+      format.json { render json: {count: num}}
+    end
+  end
+
   def new
     @book=Book.new
     @edition=Edition.new

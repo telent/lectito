@@ -29,6 +29,9 @@ Lectito::Application.routes.draw do
       post :lend
       post :return
     end
+    collection do
+      get :count
+    end
   end
 
   # The priority is based upon order of creation:
