@@ -205,8 +205,19 @@ Lectito.Views.BooksView=Backbone.View.extend({
 	Store.shelves.bind("change",this.render,this);
 	this.collection.bind("reset",this.handle_reset,this);
 	Store.collections.bind("change",this.render,this);
-	Store.tagnames.bind("change:selected",this.render,this);
+	Store.tagnames.bind("change:selected",this.change_filters,this);
+	Store.collections.bind("change:selected",this.change_filters,this);
+	Store.shelves.bind("change:selected",this.change_filters,this);
 	return this;
+    },
+    change_filters: function () {
+	var b=Store.books;
+	b.tags=Store.tagnames.where({selected: true});
+	b.shelves=Store.shelves.where({selected: true});
+	b.collections=Store.collections.where({selected: true});
+	var owners=Store.users.where({selected: true});// XXX
+	b.fetch();
+	b.fetch_count();
     },
     handle_reset: function() {
 	this.$el.empty();
