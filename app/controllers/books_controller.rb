@@ -54,7 +54,8 @@ class BooksController < ApplicationController
 
   def count
     check_authorized { current_user }
-    num=books_for_params(current_user,params).count
+    # without the select clause, this breaks when filtering for tagnames
+    num=books_for_params(current_user,params).select("distinct books.id").count
     respond_to do |format|
       format.html
       format.json { render json: {count: num}}
