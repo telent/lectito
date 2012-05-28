@@ -241,9 +241,8 @@ Lectito.Views.BooksView=Backbone.View.extend({
 Lectito.Views.Paginator=Backbone.View.extend({
     pageSize: 20,
     initialize: function() {
-	this.model.bind("change",this.render,this);
-	Store.books.bind("reset",this.render,this);
-	this.model.fetch();
+	this.collection.bind("recount",this.render,this);
+	this.collection.bind("reset",this.render,this);
         this.render();
     },
     events: {
@@ -251,20 +250,18 @@ Lectito.Views.Paginator=Backbone.View.extend({
 	"click a[rel=next]" : "next_page"
     },
     previous_page: function(e) {
-	Store.books.previous_page();
+	this.collection.previous_page();
 	return false;
     },
     next_page: function(e) {
-	var count=this.model.get('count');
-	if(count > Store.books.page*this.pageSize)
-  	    Store.books.next_page();
+  	this.collection.next_page();
 	return false;
     },
     render: function() {
-	var page=Store.books.page;
-	var count=this.model.get('count');
-	var s=(page-1)*this.pageSize+1;
-	var e=s+this.pageSize-1;
+	var b=this.collection;
+	var count=b.total_count;
+	var s=b.offset+1;
+	var e=b.offset+b.limit;
 	if(e>count) e=count;
 	var range=s+"-"+e+" of "+count;
 	this.$el.html('<span name=num_results>Results '+range+
@@ -308,10 +305,10 @@ jQuery(document).ready(function() {
 	var booksView=new Lectito.Views.BooksView({collection:  Store.books});
 	var paginator=new Lectito.Views.Paginator({
 	    el: $('#pagination')[0],
-	    model: new Lectito.Models.BookCount()
+	    collection: Store.books
 	});
+	Store.books.total_count=book_count;
 	Store.books.reset(book_data);
-
 	$('#collections').append(collectionsView.render().el);
 	$('#shelves').append(shelvesView.render().el);
 	$('#tags').append(tagsView.render().el);
