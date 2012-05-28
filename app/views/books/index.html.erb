@@ -5,6 +5,7 @@
 var shelf_data=<%= @current_user.shelves.to_json.html_safe %>;
 var collection_data=<%= @current_user.collections.to_json.html_safe %>;
 var book_data=<%= @books.to_json(include: :edition).html_safe %>;
+var book_count=<%= @books.count %>;
 var user_data=<%= @current_user.to_json.html_safe %>;
 var tag_data=<%= @current_user.tagnames.to_json.html_safe %>;
 </script>
@@ -18,19 +19,21 @@ var tag_data=<%= @current_user.tagnames.to_json.html_safe %>;
       {document.location=<%= url_for new_book_path.inspect.html_safe
       %>}) })
     </script>
-    <div id=shelves>
-      <span>Shelves</span>
+    <h2>Filter books</h2>
+    <div id=tags class=filter>
+      <div class=title>Tags</div>
       <!-- backbone view goes here -->
     </div>
-    <div id=collections>
-      <span>Collections</span>
+    <div id=shelves class=filter>
+      <div class=title>Shelves</div>
       <!-- backbone view goes here -->
     </div>
-    <div id=owners>
-      <span>Owner</span>
+    <div id=collections class=filter>
+      <div class=title>Collections</div>
+      <!-- backbone view goes here -->
     </div>
-    <div id=tags>
-      <span>Tags</span>
+    <div id=owners class=filter>
+      <div class=title >Owner</div>
     </div>
   </div>
 
