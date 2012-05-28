@@ -14,8 +14,8 @@ Lectito.Views.ULView=Backbone.View.extend({
 	})
     },
     initialize: function() {
-	this.collection.map(function(m) {m.set({selected: true})});
 	this.collection.bind("all",this.render,this);
+	this.$el.data("collection",this.collection);
 	this.render();
     },
     events: {
