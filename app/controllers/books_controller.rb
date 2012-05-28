@@ -1,6 +1,21 @@
 class BooksController < ApplicationController
   def books_for_params(user,params)
     books=user.books.joins(:edition)
+    if c=params[:collections]
+      books=books.where(:collection_id=>c.split(/,/ ).map(&:to_i))
+    end
+    if s=params[:shelves]
+      rel=books.arel_table
+      s=s.split(/,/ ).map(&:to_i)
+      # arel makes this so much more readable ...
+      books=books.where(rel[:current_shelf_id].in(s).
+                        or(rel[:home_shelf_id].in(s)))
+      # /yeah right
+    end
+    if tags=params[:tags]
+      books= books.uniq.joins(:tags).where("tags.name"=>tags.split(/,/ ))
+    end
+
     case (s=params[:sort] and s.to_sym)
     when :title,:author,:publisher,:isbn
     then
@@ -23,8 +38,12 @@ class BooksController < ApplicationController
   def index
     check_authorized { current_user }
     @books=books_for_params(current_user,params)
-    p=Integer(params[:page] || 1)
-    @books=@books.offset((p-1)*20).limit(21) 
+    if offset=params[:offset] then
+      @books=@books.offset(offset.to_i)
+    end
+    if limit=params[:limit] then
+      @books=@books.limit(limit.to_i)
+    end
     @shelves=current_user.shelves.sort_by(&:name)
     @collections=current_user.collections.sort_by(&:name)
     respond_to do |format|
