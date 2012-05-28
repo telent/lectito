@@ -23,9 +23,17 @@ Lectito.Views.ULView=Backbone.View.extend({
 	"drop li": "do_add_book"
     },
     do_select: function(e) {
-	var m=$(e.target).closest("li").data("model");
-	var selected= (m.has('selected')) ? m.get('selected') : false;
-	m.set({selected:  !selected});
+	var target=$(e.target);
+	var m=target.data("model");
+	var was_selected= (m.has('selected')) ? m.get('selected') : false;
+	m.set({selected:  !was_selected});
+	var any_selected=
+	    m.collection.any(function(f) {return f.get('selected')});
+	var div=this.$el.closest("div.filter")
+	if(any_selected) 
+	    div.addClass("active");
+	else
+	    div.removeClass("active");
     },
     do_add_book: function(e,drop,ui) {
 	var shelf=$(drop).data('model');
