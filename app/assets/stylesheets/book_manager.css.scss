@@ -1,3 +1,5 @@
+@import "colors";
+
 div#book_manager {
     div#leftbar {
 	float: left;
@@ -9,16 +11,21 @@ div#book_manager {
 	    padding: 6px 0;
 	    margin: 8px 0;
 	}
-	div  {
+	div.filter  {
+	    opacity: 50%;
 	    margin-bottom:12px;
 	    max-height: 100px;
 	    font-weight: bold;
 	    padding: 0 0 0px 0em;
 	    border: 1px solid #bbb;
 	    overflow: hidden;
-	    span {
+	    div.title {
+		@include pale-blue-background;
+		width: 100%;
+		padding: 3px; margin: 0px;
 		display: block;
 		margin-bottom: 6px;
+		color: #888;
 	    }
 	    ul {
 		padding: 0;
@@ -32,10 +39,22 @@ div#book_manager {
 		    background-color: #ddf;
 		    font-weight: bold;
 		}
+		li.selected:after {
+		    content: "X";
+		    float: right;
+		}
 	    }
 	}
-	div:hover {
+	div.filter:hover {
 	    max-height: 100%;
+	}
+	div.filter.active {
+	    max-height: 100%;
+	    opacity: 100%;
+	    .title {
+		@include dark-blue-background;
+		color: white;
+	    }
 	}
     }
     form#organize {
