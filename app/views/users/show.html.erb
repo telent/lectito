@@ -12,17 +12,15 @@
 <dd>  <%= @user.nickname %></dd>
 
 <dt>Followers</dt>
-<dd>  <%= link_to "#{@user.followers.count} users", user_relationships_path(@user)+"#followers" %></dd>
+<dd>  <%= link_to "#{@user.followers.count} users", followers_user_path(@user) %></dd>
 
 <dt>Following</dt>
-<dd>  <%= link_to "#{@user.following.count} users", user_relationships_path(@user)+"#following" %></dd>
+<dd>  <%= link_to "#{@user.following.count} users", following_user_path(@user) %></dd>
 
 </dl>
 
 
 <br clear=both>
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= render partial: "shared/follow_button",  locals: { :user=>@user }    %>
-
+<%= actions_bar(@user.actions) %>
 </div>
 
