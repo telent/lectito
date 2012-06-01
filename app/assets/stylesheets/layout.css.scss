@@ -1,10 +1,11 @@
 /* -*- css -*- mode please */
 @import "includes.css.scss";
 @import "colors";
+@import "fonts";
 @import "gradients";
 
 body {
-    font-family: 'Varela Round', sans-serif;
+    @include body-font;
     line-height: 120%;
 }
 header {
@@ -121,10 +122,8 @@ article {
     h2 { font-size: 130%; margin-top: 1em; margin-bottom: 0.5em; }
     h3 { font-size: 110%; }
     
-    font-family: 'Varela Round', sans-serif;
-    font-size: 11pt;
+    @include body-font;
     margin: 1em;
-    color: #444;
 
     ul {
 	li {

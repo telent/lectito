@@ -1,0 +1,16 @@
+<% if row.respond_to?(:user) then row=row.user end %>
+<div class=row>
+  <span class=avatar> <%= row.avatar and image_tag(row.avatar) %> </span>
+  <span class=name>
+    <span class=nick><%= row.nickname %></span><br>
+    <span class=full><%= row.fullname %> </span>
+  </span>
+  <span clas=actions>
+    <select class=actions>
+      <option  value=''>Actions</option>
+      <option value=view>View</option>
+      <option value=message>Message</option>
+      <option value=unfollow>Unfollow</option>
+      <option value=block>Block</option>
+    </select>
+</span></div>

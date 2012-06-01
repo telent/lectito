@@ -1,0 +1,17 @@
+<% sel=lambda {|x| (x==section) ? 'class=selected' : '' } %>
+<div id="friend_class_leftbar">
+<ul class=classes>
+  <li <%= sel.('following') %> >
+    <%= link_to "Following", following_user_path(current_user)  %> </li>
+  <li <%= sel.('followers') %> >
+    <%= link_to "Followers", followers_user_path(current_user)  %> </li>
+  <li <%= sel.('groups') %> >
+    <%= link_to "Groups ", user_collections_path(current_user) %>
+    <ul class=groups>
+      <% current_user.collections.each do |c| %>
+      <li> <%= link_to c.name,collection_memberships_path(c) %> </li>
+      <% end %>
+    </ul>
+  </li>
+</ul>
+</div>

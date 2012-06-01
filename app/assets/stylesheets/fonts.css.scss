@@ -1,0 +1,11 @@
+@mixin body-font {
+    font-family: 'Varela Round', sans-serif;
+    font-size: 11pt;
+    color: #444;
+}
+@import url(http://fonts.googleapis.com/css?family=Lato:700);
+@mixin display-font {
+    font-size: 14pt;
+    color: #444;
+    font-family: 'Lato',sans-serif;
+}

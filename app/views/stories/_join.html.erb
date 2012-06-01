@@ -3,9 +3,10 @@
 Welcome <%= story.actor.name %> to the  booksh.lv community!  Now you
 can 
 <%= link_to "set up your profile",story.actor %>, 
-<%= link_to "start adding your books and collections",Book %>,  and 
-<%= link_to "browse books", editions_path %> that your 
-<%= link_to "friends", user_relationships_path(story.actor) %> have added
+<%= link_to "start adding your books and collections",Book %>,  
+<%= link_to "browse books", editions_path %> that other members have 
+added, and look for your
+<%= link_to "friends.", following_user_path(story.actor) %> 
 <br clear=both>
 </div>
 

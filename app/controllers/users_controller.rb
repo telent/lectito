@@ -20,6 +20,18 @@ class UsersController < ApplicationController
     respond_with @users=u[from..to]
   end
 
+  def followers
+    @user=User.find(params[:id])
+    @breadcrumbs=[["friends",following_user_path(@user)]]
+    @followers=@user.followers
+  end
+
+  def following
+    @user=User.find(params[:id])
+    @breadcrumbs=[["friends",following_user_path(@user)]]
+    @following=@user.following
+  end
+
   def edit
   end
 

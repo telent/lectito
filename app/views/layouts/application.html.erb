@@ -40,12 +40,12 @@ case Rails.env when "development" then "(dev)" else nil end
 <nav>
 <ul>
 <% section=@breadcrumbs[0][1]
-   warn section
    [["news",stories_path],
    ["browse",editions_path],
    ["library", books_path],
-   ["friends", user_relationships_path(current_user)], 
-   ["profile",edit_user_path(current_user)]].each do |text,target| %>
+   ["profile",edit_user_path(current_user)],
+   ["friends", following_user_path(current_user)], 
+   ].each do |text,target| %>
 <li <%= if target==section then 'class="selected"'.html_safe end %> >
   <%= link_to text,target %>
 </li>
