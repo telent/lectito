@@ -21,13 +21,13 @@ class UsersController < ApplicationController
   end
 
   def followers
-    @user=User.find(params[:id])
+    @user=UserDecorator.find(params[:id])
     @breadcrumbs=[["friends",following_user_path(@user)]]
     @followers=@user.followers
   end
 
   def following
-    @user=User.find(params[:id])
+    @user=UserDecorator.find(params[:id])
     @breadcrumbs=[["friends",following_user_path(@user)]]
     @following=@user.following
   end
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    respond_with @user=User.find(params[:id])
+    respond_with @user=UserDecorator.find(params[:id])
   end
   def breadcrumb
     @breadcrumbs=[["profile",current_user]]
