@@ -49,6 +49,10 @@ div#friend_class_leftbar {
 div.friends_list {
     display: inline-block;
     vertical-align: top;
+    .row {
+	margin-bottom: 6px;
+	border-bottom: 1px #ddd solid;
+    }
     h1 {
 	display: inline;
 	@include display-font;
@@ -62,21 +66,19 @@ div.friends_list {
 	.avatar {
 	    display: inline-block;
 	    min-width: 64px;
-	    img {
-		padding: 3px;
-
-		margin: 2px 2px 2px 2px;
-	    }
 	}
 	.name {
+	    vertical-align: top;
 	    display: inline-block;
 	    min-width: 320px;
 	    .nick {
+		margin-top: 3px;
 		font-size: 110%;
 		font-weight: dark;
 	    }
 	}
 	.actions {
+	    vertical-align: top;
 	    display: inline-block;
 	    margin: 2px;
 	}
