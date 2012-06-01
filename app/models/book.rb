@@ -75,9 +75,9 @@ class Book < ActiveRecord::Base
     Event.publish(:actor=>b,:action=>:return,:book=>self)
   end
 
-  def tag(tagname,user=nil)
+  def tag(tag_name,user=nil)
     user||= self.owner
-    Tag.create edition: self.edition, user: user, book: self, name: tagname.id
+    Tag.create edition: self.edition, user: user, book: self, name: tag_name
   end
 
 end
