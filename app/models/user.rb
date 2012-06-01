@@ -68,7 +68,8 @@ class User < ActiveRecord::Base
   end
 
   def blocking?(user)
-    r=Relationship.unscoped.where(:follower_id=>self.id,:followed_id=>user.id).first
+    r=Relationship.unscoped.where(removed_at: nil, follower_id: user.id,
+                                  followed_id: self.id).first
     r and r.blocked_at 
   end
 
@@ -78,7 +79,7 @@ class User < ActiveRecord::Base
   end
 
   def follow(user)
-    if self.blocking?(user) then
+    if user.blocking?(self) || self.blocking?(user) then
       raise "Blocked"
     else
       # once a user has been followed and unfollowed, a *new* relationship
@@ -88,11 +89,21 @@ class User < ActiveRecord::Base
     end
   end
 
+  def unfollow(user)
+    r=Relationship.find_by_follower_id_and_followed_id(self.id,user.id)
+    r.unfollow
+  end
+
   def block(user)
-    r=Relationship.unscoped.find_or_create_by_follower_id_and_followed_id(user.id,self.id)
+    r=Relationship.unscoped.where(removed_at: nil).find_or_create_by_follower_id_and_followed_id(user.id,self.id)
     unless r.blocked_at
       r.blocked_at=Time.now
       r.save
     end
+  end
+
+  def unblock(user)
+    r=Relationship.unscoped.where(removed_at: nil).find_by_follower_id_and_followed_id(user.id,self.id)
+    r and r.unblock
   end
 end

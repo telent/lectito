@@ -19,20 +19,21 @@ class UserDecorator < ApplicationDecorator
 
   def actions
     a=[]
+    me=h.current_user
     a << h.link_to("View", h.user_path(user))
-    if user==h.current_user then
+    if user==me then
       a << h.link_to("Edit", h.edit_user_path(user))
     end
-    if h.current_user.following? user then
+    if me.following? user then
       a << h.link_to("Message", h.user_path(user))
-      a << h.link_to("Unfollow",  h.user_path(user))
-    else
-      a << h.link_to("Follow",  h.user_path(user))
+      a << h.link_to("Unfollow", {action: :unfollow},{method: :post})
+    elsif !(me.blocking?(user) || user.blocking?(me))
+      a << h.link_to("Follow", {action: :follow},{method: :post})
     end
-    if h.current_user.blocking? user then
-      a << h.link_to("Unblock",  h.user_path(user))
+    if me.blocking? user then
+      a << h.link_to("Unblock", {action: :unblock},{method: :post})
     else
-      a << h.link_to("Block",  h.user_path(user))
+      a << h.link_to("Block",{action: :block},{method: :post})
     end
     a
   end

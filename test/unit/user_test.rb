@@ -7,4 +7,11 @@ describe User do
       assert @u.respond_to? att
     end
   end
+  it "can be blocked" do
+    @u=User.create
+    @u2=User.create
+    refute @u.blocking?(@u2), "not blocked"
+    @u.block(@u2)
+    assert @u.blocking?(@u2), "blocked"
+  end
 end

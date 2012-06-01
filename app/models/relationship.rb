@@ -25,4 +25,8 @@ class Relationship < ActiveRecord::Base
     self.removed_at=Time.now
     save
   end
+  def unblock
+    self.removed_at=Time.now
+    save
+  end
 end

@@ -38,9 +38,29 @@ class UsersController < ApplicationController
   def show
     respond_with @user=UserDecorator.find(params[:id])
   end
+  
+  def block
+    current_user.block(@user=UserDecorator.find(params[:id]))
+    redirect_to action: :show
+  end
+
+  def unblock
+    current_user.unblock(@user=UserDecorator.find(params[:id]))
+    redirect_to action: :show
+  end
+
+  def follow
+    current_user.follow(@user=UserDecorator.find(params[:id]))
+    redirect_to action: :show
+  end
+
+  def unfollow
+    current_user.unfollow(@user=UserDecorator.find(params[:id]))
+    redirect_to action: :show
+  end
+
   def breadcrumb
     @breadcrumbs=[["profile",current_user]]
   end
-
 end
 
