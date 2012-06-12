@@ -36,4 +36,10 @@ class BookDecorator < ApplicationDecorator
       h.content_tag(:span, " by "+book.author, :class=> 'author')
     end
   end
+
+  def actions
+    a=[]
+    a << h.link_to("View", book_path(book))
+    a
+  end
 end
