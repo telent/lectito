@@ -6,12 +6,28 @@ class User < ActiveRecord::Base
   has_many :borrowed_books, :class_name=>"Book", :foreign_key=>:borrower_id
   has_many :tags
 
+  has_one :public_collection, :class_name=>"Collection", 
+  :conditions=>{public: true}
+  has_one :private_collection, :class_name=>"Collection", 
+  :conditions=>{public: true}
+
   has_many :following_rel, :foreign_key=>"follower_id",
   :class_name => "Relationship",:dependent=>:destroy
   has_many :follower_rel, :foreign_key=>"followed_id",
   :class_name => "Relationship",:dependent=>:destroy
   has_many :following, :through => :following_rel, :source => :followed
   has_many :followers, :through => :follower_rel, :source => :follower
+
+  def initialize(*args)
+    # AR finder methods call #allocate not #new so this *shouldn't* 
+    # be called on objects that are retrieved from DB, only on 
+    # genuinely new ones.  But we will check anyway
+    super
+    if self.new_record? then
+      self.public_collection||=Collection.new(public: true)
+      self.private_collection||=Collection.new(private: true)
+    end
+  end
 
   def friends
     (self.collections.map(&:users).flatten +
