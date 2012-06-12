@@ -28,4 +28,24 @@ describe Edition do
     e=Edition.find_isbn(isbn, [source])
     e.must_be_nil
   end
+  describe "books" do
+    before do
+      @e=Edition.create(:title=>"Spin Control",
+                       :author=>"Chris Moriarty",
+                       :publisher=>"Spectra"
+                       ) 
+      @u1=User.create
+      @u2=User.create
+      @b1=Book.create(:edition=>@e,:collection=>@u1.public_collection)   
+      @b2=Book.create(:edition=>@e,:collection=>@u2.public_collection)
+    end
+    it "has books" do
+      assert_equal [@b1,@b2].to_set, @e.books.to_set
+    end
+    it "finds books visible to given user" do
+      b3= Book.create(:edition=>@e,:collection=>@u1.private_collection)
+      assert_equal [@b1,@b2,b3].to_set, @e.books.for_user(@u1).to_set
+      assert_equal [@b1,@b2].to_set, @e.books.for_user(@u2).to_set
+    end
+  end
 end

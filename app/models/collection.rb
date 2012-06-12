@@ -16,7 +16,8 @@ class Collection < ActiveRecord::Base
     end
   end
   def self.visible_for(user)
-    # ActiveRecord::Relation is frsutratingly limited.  Arel is deprecated.
+    # ActiveRecord::Relation is frustratingly limited.  Arel is 
+    # an implementation detail and effectively "deprecated" for public use.
     # No alternative here but SQL
     id=user.id.to_s
     sql="select * from collections where user_id=#{id} or public='t' or exists(select id from memberships where collection_id=collections.id and user_id=#{id})"
