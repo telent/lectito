@@ -62,9 +62,7 @@ module Lectito
     initializer :after_append_asset_paths, 
     :group => :all, 
     :after => :append_assets_path do
-      warn config.assets.paths
       config.assets.paths.unshift Rails.root.join("vendor", "assets", "stylesheets", "jquery-ui-1.8.18","css","flick").to_s
-      warn config.assets.paths
     end
   end
 end
