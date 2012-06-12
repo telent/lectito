@@ -101,7 +101,8 @@ class User < ActiveRecord::Base
       # once a user has been followed and unfollowed, a *new* relationship
       # is created if they are subsequently followed again.  Just because we 
       # think it would be useful to have the history in case of complaints
-      Relationship.find_or_create_by_follower_id_and_followed_id(self.id,user.id)
+      Relationship.
+        find_or_create_by_follower_id_and_followed_id(self.id,user.id)
     end
   end
 
