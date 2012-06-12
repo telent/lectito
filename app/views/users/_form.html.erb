@@ -1,0 +1,23 @@
+<%= form_for @user do |f| %>
+<div class="field">
+  <%= f.label :nickname %>
+  <%= f.text_field :nickname %>
+</div>
+<div class="field">
+  <%= f.label :fullname %>
+  <%= f.text_field :fullname %>
+</div>
+<div class="field">
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+</div>
+<% @authorizations.each do |l|  %>
+<div class="field">
+  <%= f.label l.provider %>
+</div>
+<% end %>
+
+<div class="actions">
+  <%= f.submit %>
+</div>
+<% end %>

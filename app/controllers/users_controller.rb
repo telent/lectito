@@ -33,6 +33,14 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @user=UserDecorator.find(params[:id])
+    @authorizations=@user.authorizations
+  end
+
+  def update
+    @user=User.find(params[:id])
+    @user.update_attributes params[:user]
+    redirect_to action: :edit
   end
 
   def show
