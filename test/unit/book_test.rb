@@ -67,6 +67,35 @@ describe Book do
       assert_equal @borrower, @book.borrower
     end
   end
+
+  describe "#give" do
+    before do
+      @recipient=User.new(:id=>-11,:nickname=>"lucky winner")
+      @book=Book.create(:edition=>@edition,
+                        :home_shelf=>@shelf,
+                        :collection=>@collection)
+    end
+    
+    it "can be given to another user" do
+      @book.give(@borrower)
+      @book.current_shelf.must_be_nil
+      assert_equal @recipient, @book.owner
+      # a new collection is created
+      c=@book.collection
+      assert_equal 1,c.books.count
+      refute @book.on_loan?
+    end
+    
+    it "can't be given to its owner" do
+      o=@book.owner
+      assert_raises(Exception) {
+        @book.give(o)
+      }
+      assert_equal o, @book.owner
+    end
+  end
+
+
   describe 'tags' do
     it "#tag creates a tag with appropriate edition/user links" do
       @book=Book.create(:edition=>@edition,
