@@ -77,21 +77,13 @@ describe Book do
     end
     
     it "can be given to another user" do
-      @book.give(@borrower)
+      @book.give(@recipient)
       @book.current_shelf.must_be_nil
       assert_equal @recipient, @book.owner
-      # a new collection is created
+      # it appears in their private collection
       c=@book.collection
-      assert_equal 1,c.books.count
+      assert_equal c,@recipient.private_collection
       refute @book.on_loan?
-    end
-    
-    it "can't be given to its owner" do
-      o=@book.owner
-      assert_raises(Exception) {
-        @book.give(o)
-      }
-      assert_equal o, @book.owner
     end
   end
 

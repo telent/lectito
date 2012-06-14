@@ -75,6 +75,16 @@ class Book < ActiveRecord::Base
     Event.publish(:actor=>b,:action=>:return,:book=>self)
   end
 
+  def give(recipient)
+    if self.owner != recipient then
+      self.collection=recipient.private_collection
+      self.current_shelf=nil
+      Event.publish(:actor=>self.owner,:action=>:give,:recipient=>recipient,
+                    :book=>self)
+      save
+    end
+  end
+
   def tag(tag_name,user=nil)
     user||= self.owner
     Tag.create edition: self.edition, user: user, book: self, name: tag_name
