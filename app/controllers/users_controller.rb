@@ -66,6 +66,16 @@ class UsersController < ApplicationController
     redirect_to action: :show
   end
 
+  def block
+    current_user.block(@user=UserDecorator.find(params[:id]))
+    redirect_to action: :show
+  end
+
+  def unblock
+    current_user.unblock(@user=UserDecorator.find(params[:id]))
+    redirect_to action: :show
+  end
+
   def unfollow
     current_user.unfollow(@user=UserDecorator.find(params[:id]))
     redirect_to action: :show
