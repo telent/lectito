@@ -15,6 +15,7 @@ class SessionsController < ApplicationController
     end
     if u then
       session[:user_id]=u.id
+      a.username=auth["info"]["nickname"] || auth["uid"]
       a.save
       redirect_to stories_path
     elsif uid=session[:user_id] then
