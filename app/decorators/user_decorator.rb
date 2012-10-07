@@ -2,6 +2,7 @@ class UserDecorator < ApplicationDecorator
   decorates :user
   decorates_association :following
   decorates_association :followers
+  decorates_association :links
 
   # *You* did X to Foo
   def name_or_subject_pronoun(capitalize=nil)

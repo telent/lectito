@@ -2,7 +2,7 @@ class LinksController < ApplicationController
   # GET /links
   # GET /links.json
   def index
-    @user = User.find(params[:user_id])
+    @user = UserDecorator.decorate User.find(params[:user_id])
     @links = @user.links
 
     respond_to do |format|
@@ -14,7 +14,7 @@ class LinksController < ApplicationController
   # GET /links/1
   # GET /links/1.json
   def show
-    @user = User.find(params[:user_id])
+    @user = UserDecorator.decorate User.find(params[:user_id])
     @link = @user.links.find(params[:id])
 
     respond_to do |format|

@@ -7,6 +7,7 @@
   <ul>
     <% @user.links.each do |l| %>
     <li><%= link_to l.title,l.url %>
+      <%= actions_dropdown l.actions %>
       <%= d=l.description and content_tag(:blockquote,d) %>
     </li>
     <% end %>
