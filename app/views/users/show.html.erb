@@ -1,3 +1,7 @@
+<%= render partial: "friend_class_leftbar", locals: {section:
+    'profile'} %>
+<div class=friends_list>
+
 <%= if @user.avatar? then 
     image_tag @user.avatar, class: "bordered rightfloat"
     end %>
@@ -17,21 +21,10 @@
 <dt>Following</dt>
 <dd>  <%= link_to "#{@user.following.count} users", following_user_path(@user) %></dd>
 
-<% links=@user.links; if links.present? %>
-<dt>Links</dt>
-<dd>
-<ul>
-<% @user.links.each do |l| %>
-<li><%= link_to l.title,l.url %>
-<%= d=l.description and content_tag(:blockquote,d) %>
-</li>
-<% end %>
-</ul>
-</dd>
-<% end %>
 </dl>
 
 <br clear=both>
 <%= actions_bar(@user.actions) %>
 </div>
 
+</div>

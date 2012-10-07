@@ -1,6 +1,10 @@
 <% sel=lambda {|x| (x==section) ? 'class=selected' : '' } %>
 <div id="friend_class_leftbar">
 <ul class=classes>
+  <li <%= sel.('profile') %> >
+    <%= link_to "Profile", @user  %> </li>
+  <li <%= sel.('links') %> >
+    <%= link_to "Links", user_links_path(@user)  %> </li>
   <li <%= sel.('following') %> >
     <%= link_to "Following", following_user_path(@user)  %> </li>
   <li <%= sel.('followers') %> >

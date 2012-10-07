@@ -1,27 +1,15 @@
-<h1>Listing links</h1>
+<%= render partial: "users/friend_class_leftbar", locals: {section:
+    'links'} %>
+<div class=friends_list>
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Url</th>
-    <th>Description</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+  <h1>Links for <%= link_to @user.name, @user %></h1>
 
-<% @links.each do |link| %>
-  <tr>
-    <td><%= link.title %></td>
-    <td><%= link.url %></td>
-    <td><%= link.description %></td>
-    <td><%= link_to 'Show', user_link_path(@user,link) %></td>
-    <td><%= link_to 'Edit', edit_user_link_path(@user,link) %></td>
-    <td><%= link_to 'Destroy', link, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
+  <ul>
+    <% @user.links.each do |l| %>
+    <li><%= link_to l.title,l.url %>
+      <%= d=l.description and content_tag(:blockquote,d) %>
+    </li>
+    <% end %>
+  </ul>
+</div>
 
-<br />
-
-<%= link_to 'New Link', new_user_link_path(@user) %>
