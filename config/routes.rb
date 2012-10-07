@@ -1,5 +1,6 @@
 Lectito::Application.routes.draw do
 
+
   match '/'=> "splash#index"
   match '/subscribe'=> "splash#subscribe"
 
@@ -9,6 +10,7 @@ Lectito::Application.routes.draw do
 
   resources :users do
     resources :collections
+    resources :links
     member do
       get :friends, :followers, :following
       post :block,:unblock,:follow,:unfollow

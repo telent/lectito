@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120620154740) do
+ActiveRecord::Schema.define(:version => 20121007193413) do
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -89,6 +89,17 @@ ActiveRecord::Schema.define(:version => 20120620154740) do
 
   add_index "followlinks", ["followed_id"], :name => "index_followlinks_on_followed_id"
   add_index "followlinks", ["follower_id"], :name => "index_followlinks_on_follower_id"
+
+  create_table "links", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "title"
+    t.string   "description"
+    t.string   "url"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "links", ["user_id"], :name => "index_links_on_user_id"
 
   create_table "memberships", :force => true do |t|
     t.integer  "user_id"

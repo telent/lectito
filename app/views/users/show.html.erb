@@ -16,6 +16,19 @@
 
 <dt>Following</dt>
 <dd>  <%= link_to "#{@user.following.count} users", following_user_path(@user) %></dd>
+
+<% links=@user.links; if links.present? %>
+<dt>Links</dt>
+<dd>
+<ul>
+<% @user.links.each do |l| %>
+<li><%= link_to l.title,l.url %>
+<%= d=l.description and content_tag(:blockquote,d) %>
+</li>
+<% end %>
+</ul>
+</dd>
+<% end %>
 </dl>
 
 <br clear=both>

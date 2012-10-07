@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   has_many :borrowed_books, :class_name=>"Book", :foreign_key=>:borrower_id
   has_many :tags
 
+  has_many :links
+
   has_one :public_collection, :class_name=>"Collection", 
   :conditions=>{public: true}
   has_one :private_collection, :class_name=>"Collection", 
