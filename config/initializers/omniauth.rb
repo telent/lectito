@@ -1,4 +1,4 @@
-CONF=YAML::load(ERB.new(IO.read(File.join(Rails.root,'config','omniauth.yml'))).result)[Rails.env]
+CONF=YAML::load(ERB.new(IO.read(File.join(ENV['HOME'],'.lectito','omniauth.yml'))).result)[Rails.env]
 
 #require 'openid/store/filesystem'
 
