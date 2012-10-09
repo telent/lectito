@@ -8,7 +8,7 @@ gem 'rails' #, '~> 3.2'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-
+gem 'pg'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -40,11 +40,12 @@ gem 'ar-as-batches', git: 'git://github.com/telent/ar-as-batches.git'
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
 
+gem "puma"
 # Use unicorn as the web server
 # gem 'unicorn'
 
 # Deploy with Capistrano
-# gem 'capistrano'
+gem 'capistrano'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
