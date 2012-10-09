@@ -20,7 +20,7 @@ test:
 
 production:
   adapter: postgresql
-  database: lectito_production
+  database: lectito-production
   pool: 5
   username: lectito
 
