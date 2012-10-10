@@ -9,7 +9,7 @@ class Tagname
 
     h=Tag.connection.select_all("select name as id,count(nullif(user_id="+
                                 ActiveRecord::Base.sanitize(user_id)+
-                                ",0))  as mycount,count(distinct user_id) as allcount from tags where name="+
+                                ",false))  as mycount,count(distinct user_id) as allcount from tags where name="+
                                 ActiveRecord::Base.sanitize(name)+
                                 "group by name;").first
     self.new h['id'],h['mycount'],h['allcount'] 
@@ -19,7 +19,7 @@ class Tagname
     user_id=user ? user.id : 0
     tags=Tag.connection.select_all("select name as id,count(nullif(user_id="+
                                    ActiveRecord::Base.sanitize(user_id)+
-                                   ",0))  as mycount,count(distinct user_id) as allcount from tags group by name;").map {|h|
+                                   ",false))  as mycount,count(distinct user_id) as allcount from tags group by name;").map {|h|
       self.new h['id'],h['mycount'],h['allcount'] 
     }
     tags.sort_by {|t| t.mycount*100+t.allcount}.reverse
