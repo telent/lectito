@@ -1,16 +1,14 @@
 <%= render partial: "users/friend_class_leftbar", locals: {section:
     'links'} %>
 <div class=friends_list>
-
   <h1>Links for <%= link_to @user.name, @user %></h1>
-
-  <ul>
-    <% @user.links.each do |l| %>
-    <li><%= link_to l.title,l.url %>
-      <%= actions_dropdown l.actions %>
+  <% @user.links.each do |l| %>
+  <div class=row>
+    <span class=link><%= link_to l.title,l.url %> </span>
+    <span><%= link_to "[ edit ]", edit_user_link_path(@user,l) %></span>
+    <span><%= link_to "[ delete ]", {action: :destroy, id: l.id},{method: :delete} %></span>
       <%= d=l.description and content_tag(:blockquote,d) %>
-    </li>
-    <% end %>
-  </ul>
+  </div>
+  <% end %>
+  <%= link_to "Add link", new_user_link_path(@user) %>
 </div>
-
