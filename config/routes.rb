@@ -15,6 +15,7 @@ Lectito::Application.routes.draw do
       get :friends, :followers, :following
       post :block,:unblock,:follow,:unfollow
     end
+    resources :authorizations
   end
   resources :collections do
     resources :memberships

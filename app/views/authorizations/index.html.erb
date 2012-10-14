@@ -1,0 +1,37 @@
+<%= render partial: "users/friend_class_leftbar", locals: {section:
+    'authorizations'} %>
+<div class=friends_list>
+<h2>Linked accounts</h2>
+<p>You can use any of these to sign in to booksh.lv</p>
+<%= form_for @user do |f|%>
+<% @authorizations.each do |l|  %>
+<div class="field">
+  <%= f.label l.provider %>
+  <span style="min-width: 20em; display: inline-block">
+  <%= render partial: "authorizations/row", 
+      locals: { authorization: l }
+      %>
+  </span>
+  <span><%= link_to "[ delete ]", {action: :destroy, id:  l.id},{method: :delete} %></span>
+</div>
+<% end %>
+<% end %>
+<div class="field">
+  <label>Add linked account</label>
+  <span style="min-width: 20em; display: inline-block">
+  <%= o=options_for_select([["(select)",nil],
+      ["Facebook",:facebook],
+      ["Twitter",:twitter]]);
+      select_tag("new_auth",o) %>
+  </span>
+  <button type=button id=add_auth>+</button>
+</div>
+<script>
+$(document).ready(function() {
+    $('#add_auth').click(function(e) {
+        var provider=$('select[name=new_auth]')[0].value;
+        if(provider) document.location='/auth/'+provider;
+    });
+});
+</script>
+</div>

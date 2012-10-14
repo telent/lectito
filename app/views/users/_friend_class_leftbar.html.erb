@@ -9,6 +9,7 @@
     <%= link_to "Following", following_user_path(@user)  %> </li>
   <li <%= sel.('followers') %> >
     <%= link_to "Followers", followers_user_path(@user)  %> </li>
+<% if @user==current_user %>
   <li <%= sel.('groups') %> >
     <%= link_to "Groups ", user_collections_path(@user) %>
     <ul class=groups>
@@ -17,5 +18,8 @@
       <% end %>
     </ul>
   </li>
+  <li <%= sel.('authorizations') %> >
+    <%= link_to "Linked accounts", user_authorizations_path(@user)  %> </li>
+<% end %>
 </ul>
 </div>
