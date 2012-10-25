@@ -1,0 +1,14 @@
+<div class=friends_list>
+<input name='find' size=60 placeholder='find a user' />
+<br clear=both>
+<% @users.each do |u| %>
+<div class=user>
+  <a href="<%= url_for u %>">
+    <img 
+       src="<%= u.avatar ? u.avatar : "/question-mark-face.jpg" %>"
+       />
+    <span class=caption><%= u.fullname %></span>
+  </a>
+</div>
+<% end %>
+</div>

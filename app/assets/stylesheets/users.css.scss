@@ -1,0 +1,32 @@
+body[data-action=frequently] {
+    div.user {
+	display: inline-block;
+	float: left; 
+	position: relative;
+	padding: 3px;
+	margin: 6px;
+	border-width: 1px;
+	border-style: dashed;
+	border-color: #888;
+	img {
+	    width: 100px;
+	    opacity: 0.8;
+	}
+	span.caption {
+	    position: absolute;
+	    left: 6px; bottom: 6px;
+	    font-size: 90%;
+	    color: white;
+	    text-shadow: 3px 3px 2px black;
+	}
+    }
+    div.user:hover {
+	span.caption {
+	    color: black;
+	    text-shadow: 3px 3px 2px white;
+	}
+	img {
+	    opacity: 1;
+	}
+    }
+}

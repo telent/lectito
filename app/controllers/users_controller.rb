@@ -20,6 +20,12 @@ class UsersController < ApplicationController
     respond_with @users=u[from..to]
   end
 
+  def frequently
+    @user=UserDecorator.find(params[:id])
+    @users=UserDecorator.decorate(User.limit(10))
+    respond_with @users
+  end
+
   def followers
     @user=UserDecorator.find(params[:id])
     @breadcrumbs=[["friends",following_user_path(@user)]]

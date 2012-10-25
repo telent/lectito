@@ -12,8 +12,8 @@ Lectito::Application.routes.draw do
     resources :collections
     resources :links
     member do
-      get :friends, :followers, :following
-      post :block,:unblock,:follow,:unfollow
+      get :frequently, :friends, :followers, :following
+      post :block, :unblock, :follow, :unfollow
     end
     resources :authorizations
   end
