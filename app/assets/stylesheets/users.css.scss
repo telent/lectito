@@ -47,6 +47,7 @@ div#profile_leftbar {
     }
 }
 div.profile_body {
+    margin-top: 1em;
     display: inline-block;
     vertical-align: top;
     .row {
@@ -85,14 +86,14 @@ div.profile_body {
     }
 }
 
-h1 {
+body h1 {
     background-color: #aae;
     div.fullname {
 	margin-top: 3px;
 	font-size: 70%
     }
     padding: 6px;
-    margin-bottom: -10pt; // reduce bottom margin to bring action buttons closer
+    margin-bottom: 4pt; // reduce bottom margin to bring action buttons closer
     position: relative;
     img {
 	width: 90px;
