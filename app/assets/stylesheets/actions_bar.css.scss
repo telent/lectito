@@ -11,6 +11,7 @@ div.actions_bar {
 	    margin: 0 10px;
 	    height: 15px;
 	    $width: 120px ;
+	    border-radius: 4px;
 	    border: 1px solid lighten($border-color,20%);
 	    @include pale-blue-background;
 	    list-style-type: none;
