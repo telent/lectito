@@ -3,7 +3,12 @@ class UserDecorator < ApplicationDecorator
   decorates_association :following
   decorates_association :followers
   decorates_association :links
+  decorates_association :collections
 
+  def avatar_or_blank
+    user.avatar or '/question-mark-face.jpg'
+  end
+  
   # *You* did X to Foo
   def name_or_subject_pronoun(capitalize=nil)
     if user==h.current_user then
