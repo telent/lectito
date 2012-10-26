@@ -1,7 +1,5 @@
-<%= render partial: "users/friend_class_leftbar", locals: {section:
-    'authorizations'} %>
-<div class=friends_list>
-<h2>Linked accounts</h2>
+<%= render partial: 'users/profile_header', locals: {section: 'authorizations'} %>
+<div class=profile_body>
 <p>You can use any of these to sign in to booksh.lv</p>
 <%= form_for @user do |f|%>
 <% @authorizations.each do |l|  %>

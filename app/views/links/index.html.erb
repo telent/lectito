@@ -1,7 +1,5 @@
-<%= render partial: "users/friend_class_leftbar", locals: {section:
-    'links'} %>
-<div class=friends_list>
-  <h1>Links for <%= link_to @user.name, @user %></h1>
+<%= render partial: 'users/profile_header', locals: {section: 'links'} %>
+<div class=profile_body>
   <% @user.links.each do |l| %>
   <div class=row>
     <span class=link><%= link_to l.title,l.url %> </span>

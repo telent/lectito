@@ -1,0 +1,32 @@
+<h1>
+  <div class=nickname><%= @user.nickname %></div>
+  <div class=fullname><%= @user.fullname %></div>
+  <%= image_tag @user.avatar_or_blank  %>
+</h1>
+<%= actions_bar(@user.actions) %>
+
+<% sel=lambda {|x| (x==section) ? 'class=selected' : '' } %>
+<div id="profile_leftbar">
+<ul class=classes>
+  <li <%= sel.('news') %> >
+    <%= link_to "News", @user  %> </li>
+  <li <%= sel.('links') %> >
+    <%= link_to "Links", user_links_path(@user)  %> </li>
+  <li <%= sel.('following') %> >
+    <%= link_to "Following", following_user_path(@user)  %> </li>
+  <li <%= sel.('followers') %> >
+    <%= link_to "Followers", followers_user_path(@user)  %> </li>
+<% if @user==current_user %>
+  <li <%= sel.('groups') %> >
+    <%= link_to "Groups ", user_collections_path(@user) %>
+    <ul class=groups>
+      <% @user.collections.each do |c| %>
+      <li> <%= link_to c.name,collection_memberships_path(c) %> </li>
+      <% end %>
+    </ul>
+  </li>
+  <li <%= sel.('authorizations') %> >
+    <%= link_to "Linked accounts", user_authorizations_path(@user)  %> </li>
+<% end %>
+</ul>
+</div>

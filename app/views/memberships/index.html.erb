@@ -1,6 +1,6 @@
-<%= render partial: "users/friend_class_leftbar", locals: {section: 'groups'} %>
-<div class=friends_list>
-<h1> "<%= @collection.name %>" group members</h1>
+<%= render partial: 'users/profile_header', locals: {section: 'groups'} %>
+<div class=profile_body>
+<h2> "<%= @collection.name %>" group members</h2>
 
 <%= render :partial=>"users/row", :collection=> @memberships or
   "This group has no members"
