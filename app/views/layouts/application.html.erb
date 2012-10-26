@@ -43,7 +43,6 @@ case Rails.env when "development" then "(dev)" else nil end
    [["news",stories_path],
    ["browse",editions_path],
    ["library", books_path],
-   ["profile",edit_user_path(current_user)],
    ["people", frequently_user_path(current_user)], 
    ].each do |text,target| %>
 <li <%= if target==section then 'class="selected"'.html_safe end %> >
