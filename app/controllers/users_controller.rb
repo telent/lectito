@@ -46,8 +46,9 @@ class UsersController < ApplicationController
   def update
     @user=User.find(params[:id])
 
-    auth=params[:authorizations]
-    @user.authorizations= Authorization.find(auth.keys.map(&:to_i))
+    if auth=params[:authorizations]
+      @user.authorizations= Authorization.find(auth.keys.map(&:to_i))
+    end
 
     @user.update_attributes params[:user]
     redirect_to action: :edit

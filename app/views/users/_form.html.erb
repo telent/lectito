@@ -1,5 +1,16 @@
 
 <%= form_for @user do |f| %>
+<% if @user.errors.any? %>
+<div id="error_explanation">
+  <h2><%= pluralize(@link.errors.count, "error") %> stopped us from saving this:</h2>
+  
+  <ul>
+    <% @link.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
 <div class="field">
   <%= f.label :nickname %>
   <%= f.text_field :nickname %>
@@ -12,6 +23,25 @@
   <%= f.label :email %>
   <%= f.text_field :email %>
 </div>
+<div class="field">
+  <%= f.label :bio %>
+  <%= f.text_area :bio, rows: 5, cols: 40 %>
+</div>
+<% @user.links.each_with_index do |l,i| %>
+<div class="field">
+  <%= f.label(i.zero? ? :links : ' '.to_sym )  %>
+  <span class=link><%= l.title %> </span>
+  <span class=link><%= l.url %> </span>
+  <span><%= link_to "[ edit ]", edit_user_link_path(@user,l) %></span>
+  <span><%= link_to "[ delete ]", {action: :destroy, id: l.id},{method: :delete} %></span>
+</div>
+<% end %>
+<div class="field">
+  <%= f.label "New link" %>
+  <%= link_to "Add", new_user_link_path(@user) %>
+</div>
+
+
 <div class="actions">
   <%= f.submit %>
 </div>

@@ -1,8 +1,19 @@
 <h1>
   <div class=nickname><%= @user.nickname %></div>
   <div class=fullname><%= @user.fullname %></div>
-  <%= image_tag @user.avatar_or_blank  %>
 </h1>
+
+<div id=profile_rightbar>
+<%= image_tag @user.avatar_or_blank  %>
+<%= @user.bio %>
+<ul>
+<% @user.links.each do |l| %>
+<li> <%= link_to l.title,l.url %>
+<% end %>
+</li>
+</ul>
+</div>
+
 <%= actions_bar(@user.actions) %>
 
 <% sel=lambda {|x| (x==section) ? 'class=selected' : '' } %>
@@ -10,8 +21,6 @@
 <ul class=classes>
   <li <%= sel.('news') %> >
     <%= link_to "News", @user  %> </li>
-  <li <%= sel.('links') %> >
-    <%= link_to "Links", user_links_path(@user)  %> </li>
   <li <%= sel.('following') %> >
     <%= link_to "Following", following_user_path(@user)  %> </li>
   <li <%= sel.('followers') %> >

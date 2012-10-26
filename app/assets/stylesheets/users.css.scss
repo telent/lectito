@@ -1,6 +1,29 @@
 @import "colors";
 @import "fonts";
 
+div#profile_rightbar {
+    background-color: #eef;
+    float: right;
+    display: inline-block;
+    max-width: 150px;
+    font-size: 95%;
+    img {
+	display: block;
+	width: 120px;
+	border-color: black;
+	border-width: 1px ;
+	border-style: grey;
+	box-shadow: 3px 3px 7px #888;
+	margin-bottom: 6px;
+    }
+    ul {
+	margin-top: 6px;
+	li {
+	    margin-left: 1em;
+	}
+    }
+}
+
 div#profile_leftbar {
     vertical-align: top;
     padding-right: 2em;
@@ -95,15 +118,6 @@ body h1 {
     padding: 6px;
     margin-bottom: 4pt; // reduce bottom margin to bring action buttons closer
     position: relative;
-    img {
-	width: 90px;
-	position: absolute;
-	top: 4px; right: 4px;
-	border-color: black;
-	border-width: 1px ;
-	border-style: grey;
-	box-shadow: 3px 3px 7px #888;
-    }
 }
 body[data-action=frequently] {
     div.user {
