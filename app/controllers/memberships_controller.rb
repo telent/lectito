@@ -1,6 +1,6 @@
 class MembershipsController < ApplicationController
   def index
-    @collection=Collection.find(params[:collection_id])
+    @collection=CollectionDecorator.find(params[:collection_id])
     @user=@collection.user
     @memberships=@collection.memberships
     @breadcrumbs=[["friends",following_user_path(@user)]]

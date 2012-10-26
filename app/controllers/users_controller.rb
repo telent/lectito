@@ -54,7 +54,10 @@ class UsersController < ApplicationController
   end
 
   def show
-    respond_with @user=UserDecorator.find(params[:id])
+    @user=UserDecorator.find(params[:id])
+    # placeholder stories collection so we can fiddle with layout
+    @stories= StoryDecorator.decorate(User.find(1).stories(0,10).to_a)
+    respond_with @user
   end
   
   def block

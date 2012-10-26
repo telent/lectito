@@ -2,7 +2,7 @@ class LinksController < ApplicationController
   # GET /links
   # GET /links.json
   def index
-    @user = UserDecorator.decorate User.find(params[:user_id])
+    @user = UserDecorator.find(params[:user_id])
     @links = @user.links
 
     respond_to do |format|
@@ -26,7 +26,7 @@ class LinksController < ApplicationController
   # GET /links/new
   # GET /links/new.json
   def new
-    @user = User.find(params[:user_id])
+    @user = UserDecorator.find(params[:user_id])
     @link = @user.links.build
 
     respond_to do |format|
@@ -37,14 +37,15 @@ class LinksController < ApplicationController
 
   # GET /links/1/edit
   def edit
-    @user = User.find(params[:user_id])
-    @link = @user.links.find(params[:id])
+    u = User.find(params[:user_id])
+    @user = UserDecorator.new u
+    @link = u.links.find(params[:id])
   end
 
   # POST /links
   # POST /links.json
   def create
-    @user = User.find(params[:user_id])
+    @user = UserDecorator.find(params[:user_id])
     @link = @user.links.build(params[:link])
 
     respond_to do |format|
