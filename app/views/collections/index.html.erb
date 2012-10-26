@@ -13,7 +13,13 @@
   <tr>
     <td><%= collection.name %></td>
     <td>(<%= collection.books.count %> books)</td>
+    <% case when collection.public? then %>
+    <td>public</td>
+    <% when collection.private? then %>
+    <td>public</td>
+    <% else %>
     <td><%= link_to 'Members', collection_memberships_path(collection) %></td>
+    <% end %>
     <td><%= link_to 'Delete', collection, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
