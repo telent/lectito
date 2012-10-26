@@ -65,7 +65,7 @@ class LinksController < ApplicationController
 
     respond_to do |format|
       if @link.update_attributes(params[:link])
-        format.html { redirect_to user_links_path(@user), notice: 'Link was successfully created.' }
+        format.html { redirect_to user_links_path(@user), notice: 'Link was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
