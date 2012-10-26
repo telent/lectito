@@ -45,13 +45,16 @@ class UsersController < ApplicationController
 
   def update
     @user=User.find(params[:id])
-
-    if auth=params[:authorizations]
-      @user.authorizations= Authorization.find(auth.keys.map(&:to_i))
+    if @user==current_user
+      if auth=params[:authorizations]
+        @user.authorizations= Authorization.find(auth.keys.map(&:to_i))
+      end
+      
+      @user.update_attributes params[:user]
+      redirect_to action: :edit
+    else
+      render text: "Forbidden", status: :forbidden
     end
-
-    @user.update_attributes params[:user]
-    redirect_to action: :edit
   end
 
   def show
