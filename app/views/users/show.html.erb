@@ -1,30 +1,9 @@
-<%= render partial: "friend_class_leftbar", locals: {section:
-    'profile'} %>
-<div class=friends_list>
+<%= render partial: 'profile_header', locals: {section: 'news'} %>
 
-<%= if @user.avatar? then 
-    image_tag @user.avatar, class: "bordered rightfloat"
-    end %>
-<dl class=attribute_list>
-<dt>Name</dt>
-<dd>  <%= @user.fullname %></dd>
+<div class=profile_body>
+stories go here
 
-<dt>Nickname</dt>
-<dd>  <%= @user.nickname %></dd>
 
-<dt>Email</dt>
-<dd>  <%= @user.nickname %></dd>
 
-<dt>Followers</dt>
-<dd>  <%= link_to "#{@user.followers.count} users", followers_user_path(@user) %></dd>
-
-<dt>Following</dt>
-<dd>  <%= link_to "#{@user.following.count} users", following_user_path(@user) %></dd>
-
-</dl>
-
-<br clear=both>
-<%= actions_bar(@user.actions) %>
-</div>
 
 </div>
