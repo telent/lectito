@@ -26,8 +26,10 @@ class User < ActiveRecord::Base
     # genuinely new ones.  But we will check anyway
     super
     if self.new_record? then
-      self.public_collection||=Collection.new(public: true)
-      self.private_collection||=Collection.new(private: true)
+      self.public_collection||=Collection.new(public: true, 
+                                              name: 'Public books')
+      self.private_collection||=Collection.new(private: true,
+                                               name: 'Private books')
     end
   end
 

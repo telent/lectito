@@ -15,9 +15,13 @@ describe User do
     assert @u.blocking?(@u2), "blocked"
   end
   it "is created with a public and a private collection" do
-    @u=User.create
-    assert @u.public_collection.public
-    assert @u.private_collection.private
+    @u = User.create
+    pu = @u.public_collection
+    assert pu.public
+    assert pu.name.match /public/i
+    pr = @u.private_collection
+    assert pr.private
+    assert pr.name.match /private/i
   end
  
 end
