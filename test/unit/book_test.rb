@@ -19,6 +19,13 @@ describe Book do
   after do
     Event.unsubscribe @esubscriber
   end
+
+  it 'requires a home shelf' do
+    refute Book.create(:edition=>@edition, :collection=>@collection).valid?
+  end
+  it 'requires a collection' do
+    refute Book.create(:edition=>@edition, :home_shelf=>@shelf).valid?
+  end
   
   describe "#lend" do
     before do
