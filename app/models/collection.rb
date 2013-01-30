@@ -3,6 +3,9 @@ class Collection < ActiveRecord::Base
   has_many :books
   has_many :memberships
   has_many :users, :through=>:memberships
+
+  validates_presence_of :name
+
   def add_member(user)
     raise StandardError if self.private
     self.memberships.create :user=>user
