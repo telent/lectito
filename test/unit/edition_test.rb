@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'pp'
 
 describe Edition do
   it "has title, author, publisher attributes" do
