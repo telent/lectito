@@ -1,4 +1,3 @@
-require 'pp'
 require 'test_helper'
 
 describe EditionSource::GoogleBooks do
