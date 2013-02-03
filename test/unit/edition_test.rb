@@ -34,16 +34,19 @@ describe Edition do
                        :author=>"Chris Moriarty",
                        :publisher=>"Spectra"
                        ) 
+      shelf = Shelf.create(name: 'lll')
       @u1=User.create
       @u2=User.create
-      @b1=Book.create(:edition=>@e,:collection=>@u1.public_collection)   
-      @b2=Book.create(:edition=>@e,:collection=>@u2.public_collection)
+      @b1=Book.create(:edition=>@e,:home_shelf=>shelf,:collection=>@u1.public_collection)   
+      @b2=Book.create(:edition=>@e,:home_shelf=>shelf,:collection=>@u2.public_collection)
     end
     it "has books" do
-      assert_equal [@b1,@b2].to_set, @e.books.to_set
+      assert_equal [@b1,@b2].map(&:id).to_set, @e.books.map(&:id).to_set
     end
     it "finds books visible to given user" do
-      b3= Book.create(:edition=>@e,:collection=>@u1.private_collection)
+      b3= Book.create(:edition=>@e,
+                      :home_shelf=>Shelf.create(name: 'lll'),
+                      :collection=>@u1.private_collection)
       assert_equal [@b1,@b2,b3].to_set, @e.books.for_user(@u1).to_set
       assert_equal [@b1,@b2].to_set, @e.books.for_user(@u2).to_set
     end
