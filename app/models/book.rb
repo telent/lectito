@@ -6,7 +6,7 @@ class Book < ActiveRecord::Base
   belongs_to :collection
   belongs_to :edition
   has_many :tags
-  validates_presence_of :home_shelf_id, :collection_id
+  validates_presence_of :collection_id
 
   def_delegators :edition, :title, :author, :publisher, :isbn
 

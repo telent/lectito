@@ -20,8 +20,9 @@ describe Book do
     Event.unsubscribe @esubscriber
   end
 
-  it 'requires a home shelf' do
-    refute Book.create(:edition=>@edition, :collection=>@collection).valid?
+  it 'is unshelved if home shelf is unset' do
+    b=Book.create(:edition=>@edition, :collection=>@collection)
+    assert b.valid?
   end
   it 'requires a collection' do
     refute Book.create(:edition=>@edition, :home_shelf=>@shelf).valid?
