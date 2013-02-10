@@ -37,15 +37,19 @@ class BooksController < ApplicationController
 
   def index
     check_authorized { current_user }
-    @books=books_for_params(current_user,params)
-    if offset=params[:offset] then
-      @books=@books.offset(offset.to_i)
-    end
-    if limit=params[:limit] then
-      @books=@books.limit(limit.to_i)
-    end
     @shelves=current_user.shelves.sort_by(&:name)
     @collections=current_user.collections.sort_by(&:name)
+    terms = { 
+      collections: @collections,
+      shelves: @shelves
+    }
+    if s=params[:start] then
+      terms[:start] = s.to_i
+    end
+    if e=params[:end] then
+      terms[:end] = e.to_i
+    end
+    @books = BookSearch.new(terms).results
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @books.to_json(include: :edition) }
