@@ -5,8 +5,8 @@ MyBook ||= Class.new
 
 describe BookSearch do
   it "searches for books" do
-    mock(MyBook).where(hash_including(collection_ids: [1,3],
-                                      shelf_ids: [7],
+    mock(MyBook).where(hash_including(collection_id: [1,3],
+                                      current_shelf_id: [7],
                                       )) {
       mock("result").offset(0) {
         mock("result").limit(4) {

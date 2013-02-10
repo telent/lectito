@@ -8,7 +8,7 @@ class BookSearch
       (a.delete(:collections) || []).map(&:id)
     s_ids = (a.delete(:shelf_ids) || []) +
       (a.delete(:shelves) || []).map(&:id)
-    @where = {collection_ids: c_ids, shelf_ids: s_ids}
+    @where = {collection_id: c_ids, current_shelf_id: s_ids}
   end
   def results
     return @class.where(@where).offset(@start).limit(@end)
