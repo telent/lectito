@@ -7,12 +7,9 @@ describe BookSearch do
   it "searches for books" do
     mock(MyBook).where(hash_including(collection_id: [1,3],
                                       current_shelf_id: [7],
-                                      )) {
-      mock("result").offset(0) {
-        mock("result").limit(4) {
-          Array.new(5,:book)
-        }
-      }
+                                      )).mock!.
+      offset(0).mock!.limit(4) {
+      Array.new(5,:book)
     }
     r = BookSearch.new(:start=>0, :end=>5, :class=>MyBook,
                        :collection_ids => [1,3],
