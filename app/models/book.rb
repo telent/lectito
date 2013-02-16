@@ -16,6 +16,9 @@ class Book < ActiveRecord::Base
   def owner_id
     self.collection.user_id
   end
+  def owned_by?(user)
+    self.collection.user == user
+  end
 
   def tag_names
     self.tags.map(&:name)
