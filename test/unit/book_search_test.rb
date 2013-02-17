@@ -49,17 +49,28 @@ describe BookSearch do
       }
     end
     describe "book belongs to me" do
-      # now our viewmodel needs to get the current user
+      let :user do "a user" end
+      before do        
+        stub(book).owned_by? { false }
+        stub(book).owned_by?(user) { true }
+      end
       describe "book is at home" do
         it "returns shelf name" do
-          user = "a user"
           stub(book).on_loan? { false }
-          stub(book).owned_by? { false }
-          stub(book).owned_by?(user) { true }
           r = BookSearch.new(:start=>0, :end=>5, :class=>MyBook,
                              :user=>user)
           row = r.results.first
           assert_equal 'my shelf', row[:location]
+        end
+      end
+      describe "book is on loan" do
+        it "returns borrower name" do
+          stub(book).on_loan? { true }
+          stub(book).borrower { mock!.name { "Mary Norton" }}
+          r = BookSearch.new(:start=>0, :end=>5, :class=>MyBook,
+                             :user=>user)
+          row = r.results.first
+          assert_equal 'Mary Norton', row[:location]
         end
       end
     end

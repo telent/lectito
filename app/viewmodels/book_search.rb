@@ -30,6 +30,8 @@ class BookSearch < IdentityMappedBookSearch
     loc = case 
           when book.owned_by?(@user) && !book.on_loan? then
             book.current_shelf.name
+          when book.owned_by?(@user) && book.on_loan? then
+            book.borrower.name
           else "sdfgsdfg"
           end
     { 
